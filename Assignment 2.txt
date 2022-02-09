@@ -1,0 +1,114 @@
+Q1. Create a folder and insert three files.
+
+touch dir1/{a..c}.txt
+
+
+Q2.ls: command list out all the files which you added(use man command use 3 or 4 commands)
+
+ls dir1
+
+man ls
+
+ls -a dir1
+
+ls -C dir1
+
+ls -l dir1
+
+
+Q3.  mkdir==>to create new directory
+
+mkdir dir2
+
+
+Q4. cd==>change directory
+
+cd dir2
+
+
+Q5.touch==>to create an empty file
+
+cd dir2
+touch x1.txt
+
+Q6. rmdir-->to remove directory
+
+cd ..
+mkdir dir3
+rmdir dir3
+
+Q7. rm=> to remove a file
+
+cd dir1
+rm a.txt
+
+Q8.cal==> current month calendar
+
+cal
+
+Q9.date==>to display current date and time.
+
+date
+
+Q10. help--> to display list of commands
+
+help
+
+Q11. help--> to display list of commands
+
+hello
+
+Q12. clear-->to clear the screen
+
+clear
+
+Q13.  exit-->to close the current session. 
+
+
+Q14. 
+
+
+
+
+
+
+Q15.  ls: lists all the contents of the specified directory.It can be used to obtain information on
+
+                  the files and directories within it.
+
+
+ls -l dir1
+
+
+Q16.cd: used to change from one directory to another
+
+cd dir1
+
+Q17.pwd: prints name of the current working directory.
+
+pwd
+
+Q18.cp: copy files or directories and is used to make copies of the new files and directories.
+
+cd dir1
+cp b.txt c.txt
+cat b.txt
+cat c.txt
+
+Q19.mv: move or rename files or directories.It is used to change the name of files or directories,         or to move them into other directories. 
+
+
+cd dir1
+mv b.txt dir1child
+
+Q20. rmdir: remove files or directories. rmdir removes named empty directories.
+
+cd dir1
+cd dir1child
+rm c.txt
+
+
+
+
+
+

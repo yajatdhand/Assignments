@@ -1,0 +1,316 @@
+ASSIGNMENT NO 4-
+----------------
+1.Print Hello World
+package com.atcs.oops;
+
+public class Test {
+public static void main(String[] args) {
+	System.out.println("Hello World");
+	System.out.println('a'+'b');
+}
+}
+
+2.Add two numbers/binary numbers/characters.
+package com.atcs.oops;
+
+public class Numbers {
+public static void main(String[] args) {
+	int a=2,b=3;
+	System.out.println("Sum of two numbers:"+(a+b));
+}
+}
+
+3.Calculate compound interest Calculate the power of a number Swap two numbers
+
+package com.atcs.oops;
+
+public class Compound {
+public static void main(String[] args) {
+	double p=10000,t=2,r=0.8;
+ double amount = p * (Math.pow(1 + (r / 100), t));
+ double ci = amount - p;
+ System.out.println(ci);
+}
+}
+
+package com.atcs.oops;
+
+public class Compound {
+public static void main(String[] args) {
+	int a=10,b=10,result=1;
+	 
+	
+	while(b!=0) {
+		result=result*a;
+		--b;
+	}
+	System.out.println(result);
+}
+}
+
+package com.atcs.oops;
+
+public class Compound {
+public static void main(String[] args) {
+
+
+	int a=2,b=4,temp;
+	System.out.println("Before swapping:");
+	System.out.println("a="+a+"and"+"b="+b);
+	temp=a;
+	a=b;
+	b=temp;
+	System.out.println("After swapping:");
+	System.out.println("a="+a+"and"+"b="+b);
+}
+}
+
+4.Calculate the area of rectangle Calculate area and circumference of a circle using multiple classes Java program to find ASCII value of a character.
+
+package com.atcs.oops;
+
+public class Area {
+	public static void main(String[] args) {
+		int a=3,b=4,r=3;
+		System.out.println("Area of Rectangle: "+(a*b));
+		System.out.println("Area of circle: "+(3.14*r*r));
+		System.out.println("Circumference of circle: "+(2*3.14*r));
+	}
+
+}
+
+5.Print default values of primitive data type variable.
+package com.atcs.oops;
+
+public class Default {
+
+	static int i;
+	static float f;
+	static String c;
+	static boolean b;
+	static short s;
+	static long l;
+	static double d;
+	static byte y;
+	public static void main(String[] args) {
+	System.out.println(i);
+	System.out.println(f);
+	System.out.println(c);
+	System.out.println(b);
+	System.out.println(s);
+	System.out.println(l);
+	System.out.println(d);
+	System.out.println(y);
+	
+}
+}
+
+6.Print Fibonacci series till n.
+package com.atcs.oops;
+import java.util.*;
+
+public class Fibonacci {
+ 	
+	public static void main(String[] args) {
+		int n,k,i=0,j=1;
+		Scanner sc=new Scanner(System.in);
+		System.out.println();
+		n=sc.nextInt();
+
+		System.out.println(i);
+		System.out.println(j);
+		while(n>1) {
+			
+			k=i+j;
+			System.out.println(k+"");
+			i=j;
+			j=k;
+			--n;
+	}
+
+}
+}
+
+7. Display prime numbers between 1 and 100 or 1 and n.
+
+package com.atcs.oops;
+import java.util.*;
+public class Prime {
+	public static void main(String[] args) {
+		int n,flag=0,i;
+		
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Enter number:");
+		n=sc.nextInt();
+		int m=n/2;
+		if(n==0 || n==1) {
+			System.out.println("Not a prime number");
+			}
+		else {
+			for(i=2;i<=m;i++) {
+				if(n%i==0) {
+					System.out.println("Not a prime number");
+					flag=1;
+					break;
+				}
+			}
+			if(flag==0) {
+				System.out.println("Prime number");
+			}
+		}
+		
+	}
+
+}
+
+8. Check if a number is palindrome or not.
+
+package com.atcs.oops;
+import java.util.*;
+
+public class Palindrome {
+	public static void main(String[] args) {
+      int n,temp,r,sum=0;
+      Scanner sc=new Scanner(System.in);
+      System.out.println("Enter number:");
+      n=sc.nextInt();
+      temp=n;
+      while(n>0) {
+    	  r=n%10;
+    	  sum=(sum*10)+r;
+    	  n=n/10;
+      }
+      if(temp==sum) {
+    	  System.out.println("Palindrome no");
+      }
+      else {
+    	  System.out.println("Not Palindrome number");
+      }
+	}
+
+}
+
+9. Add two integer variables in 5 different ways using functions and control statement.
+
+package com.atcs.oops;
+
+import java.util.Scanner;
+
+public class AddSum {
+public static void main(String[] args) {
+	int a,b,s;
+	Scanner sc=new Scanner(System.in);
+	System.out.println("Enter first number:");
+	a=sc.nextInt();
+	System.out.println("Enter second number:");
+	b=sc.nextInt();
+	s=sum(a,b);
+	System.out.println("Sum:"+s);
+	
+}
+
+public static int sum(int a, int b) {
+	int s = a + b;
+	return s;
+}
+}
+
+10.Find the square root of a number without sqrt method
+package com.atcs.oops;
+import java.util.*;
+public class Root {
+	public static void main(String[] args) {
+		int n,s,r;
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Enter number:");
+		n=sc.nextInt();
+		s = n*n;
+		System.out.println("Square is: "+s);
+		r = s/n;
+		System.out.println("Square root is:"+r);
+		
+	}
+
+}
+
+11.Calculate grades of students using their marks
+
+package com.atcs.oops;
+import java.util.*;
+public class Grades {
+public static void main(String[] args) {
+	int e,m,s,h;
+	float p,g;
+	Scanner sc=new Scanner(System.in);
+	System.out.println("Enter English Number:");
+	e=sc.nextInt();
+	Scanner sm=new Scanner(System.in);
+	System.out.println("Enter Maths Number:");
+	m=sm.nextInt();
+	Scanner ss=new Scanner(System.in);
+	System.out.println("Enter Science Number:");
+	s=ss.nextInt();
+	Scanner sh=new Scanner(System.in);
+	System.out.println("Enter Hindi Number:");
+	h=sh.nextInt();
+	p=e+m+s+h;
+	System.out.println("sum of English,Maths,Science,Hindi:"+p);
+	g=(p/400)*100;
+	System.out.println("Percentage:"+g);
+	if(g>=90) {
+		System.out.println("Grade A");
+	}
+	else if(g<90 && g>=80) {
+		System.out.println("Grade B");
+	}
+	else if(g<80 && g>=70) {
+		System.out.println("Grade C");
+	}
+	else {
+		System.out.println("Grade D");
+	}
+	
+	}
+}
+
+12.Use switch case, check 0 to 9 numbers.
+
+package com.atcs.oops;
+
+import java.util.Scanner;
+
+public class Check {
+public static void main(String[] args) {
+	int num;
+	Scanner sc= new Scanner(System.in);
+	System.out.println("Enter Number:");
+	num=sc.nextInt();
+
+	switch (num) {
+    case 0:  System.out.println("Yes"); 
+             break;
+    case 1:  System.out.println("Yes"); 
+             break;
+    case 2:  System.out.println("Yes"); 
+             break;
+    case 3:  System.out.println("Yes"); 
+             break;
+    case 4:  System.out.println("Yes"); 
+             break;
+    case 5:  System.out.println("Yes"); 
+             break;
+    case 6:  System.out.println("Yes"); 
+             break;
+    case 7:  System.out.println("Yes"); 
+             break;
+    case 8:  System.out.println("Yes"); 
+             break;
+    case 9:  System.out.println("Yes"); 
+             break;
+    default:System.out.println("Not in a range");
+   
+}
+}
+}
+
+

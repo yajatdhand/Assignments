@@ -1,0 +1,192 @@
+ASSIGNMENT 3
+============
+
+1. Write how many types of shells.
+c-shell , z-shell,korn shell,etc.....
+2.Create a shell script file.
+cd desktop
+cd fgh_atcs
+which bash
+echo $SHELL
+touch kkkk.sh
+
+3.Create a shell script file and execute (hello world).
+in kkkk.sh-
+==========
+#! /bin/bash
+echo 'Hello World.'
+
+chmod +x kkkk.sh
+ls -l
+./kkkk.sh
+(Hello World)
+
+4.Create a shell script and take the user permission to execute the file.
+#! /bin/bash
+
+read -p"Enter your Age" age
+echo "My Age is $age"
+
+5.How to switch one shell to another shell.(copy and paste)
+-First, find out the available shells on your Linux box, runcat /etc/shells
+-chsh 
+cat /etc/shells
+grep "abc" /etc/shells
+grep "efg" /etc/shells
+6.By using sha-bang execute one file.
+gedit emp.txt
+#!/bin/sh
+echo "Hello"
+ctrl + s and ctrl + q
+sh emp.txt
+
+--Consider the following variable declaration
+
+           echo name  ==>name 
+
+            echo $name  ==>valid 
+
+           echo '$name' ==>$name
+
+           echo "$name"===>valid
+
+touch name1.sh
+#! /bin/bash
+name="anmol"
+echo $name
+
+if [ $name = "Anmol" ]
+then 
+	echo "Yes"
+else
+	echo "No"
+fi
+
+7.To print the number of files in the current working directory .
+pwd
+ls
+
+9. To display the number of lines present in the file.
+wc -l kkkk.sh
+
+10. print current working directory.
+pwd
+
+11. write a  script to read employee details and save to the emp.txt file.
+touch emp.txt
+#! /bin/bash
+
+read -p"Enter employee name" name
+echo "My name is $name"
+read -p"Enter employee number" number
+echo "Enter number $number"
+
+chmod u+x emp.txt
+ls -l
+./emp.txt
+
+
+12. write a script to read name from the end user and if name is sathyathen display Some special messages.
+
+touch emp1.txt
+read -p "Enter the name: " name
+if [$name="sathaya"]
+then
+echo "How are you"
+else
+echo "not matching"
+fi
+
+13.Write a simple if else statement.
+
+#! /bin/bash
+NAME="Anmol"
+if [ "$NAME" == "Anmol" ]
+then
+	echo "yes"
+else
+	echo "No"
+fi
+
+14.Write a simple case statement.
+
+#! /bin/bash
+read -p "enter any digit from 0 to 9: " n
+case $n in
+0)
+echo "Zero"
+;;
+1)
+echo "one"
+;;
+2)
+echo "two"
+;;
+3)
+echo "three"
+;;
+4)
+echo "four"
+;;
+5)
+echo "five"
+;;
+6)
+echo "six"
+;;
+7)
+echo "seven"
+;;
+8)
+echo "eight"
+;;
+9)
+echo "nine"
+;;
+
+*)
+default echo "nothing"
+;;
+esac
+
+
+1.Create a local git repository
+mkdir repo
+cd repo
+git init
+2.Commit the initial code
+git add .
+git commit -m "message"
+3.Update the code
+cat>>abc.txt
+	//add some text 
+>> cat abc.txt
+4.Use git commands to
+git config
+git init
+git clone
+git add
+git commit
+git diff
+git reset
+git status
+git rm
+git log
+git show
+git tag
+git branch
+git checkout
+git merge
+git remote
+git push
+
+5.List the changes
+git diff
+
+6.Create branch
+git branch branch_name
+
+7.Merge branch
+git merge branch_name
+
+

@@ -1,0 +1,271 @@
+ASSIGNMENT NO.6-3/3/2022
+------------------------
+1.Print default values of static & instance variables for different data types.
+package com.atcs.oops;
+public class Values {
+	static int a;
+	char c;
+	float f;
+	static long l;
+	
+	
+public static void main(String[] args) {
+	       System.out.println(a);
+	       Values t=new Values();
+	       System.out.println(t.c);
+	       System.out.println(t.f);
+	       System.out.println(l);
+	       
+		
+}
+}
+
+2.Build a class Employee which contains details about the employee and compile and run its instance.
+
+package com.atcs.oops;
+
+public class Employee {
+	int id;
+	String name;
+	
+public Employee() {
+	id = 100;
+	name = "Anmol";
+}
+	
+//	void display() {
+//		
+//		System.out.println(id+" "+name);
+//	}
+	
+	public static void main(String[] args) {
+		Employee e=new Employee();
+		
+		System.out.println(e.id + " "+e.name);
+	}
+
+}
+
+3.Build a class that has references to other classes. Instantiate these reference variables and invoke instance methods.
+
+package com.atcs.oops;
+
+class Vehicle
+{
+	String Brand;
+	int YoM;
+	public String getBrand() {
+		return Brand;
+	}
+	public void setBrand(String brand) {
+		Brand = brand;
+	}
+	public int getYoM() {
+		return YoM;
+	}
+	public void setYoM(int yoM) {
+		YoM = yoM;
+	}
+	
+	
+}
+
+
+
+public class Ref extends Vehicle {
+	
+	
+
+	public static void main(String[] args) {
+		
+		Vehicle v1 = new Vehicle();
+		v1.setBrand("BMW");
+		v1.setYoM(2021);
+		v1.getBrand();
+		v1.getYoM();
+	
+		
+	}
+
+}
+
+4.Create Student class with global variables and related methods with constructor and without constructor observe the difference between methods calling and constructor calling.
+
+without constructor--
+package com.atcs.oops;
+
+public class Student {
+	int stid;
+	String name;
+	void assign() {
+		stid = 100;
+		name = "Anmol";
+	}
+	void display() {
+		System.out.println(stid+" "+name);
+	}
+	
+	public static void main(String[] args) {
+		Student st=new Student();
+		st.assign();
+		st.display();
+	}
+}
+
+with constructor--
+package com.atcs.oops;
+
+public class Student {
+	int stid;
+	String name;
+	public Student() {//Create construcor
+		stid = 100;
+		name = "Anmol";
+	}
+	void display() {
+		System.out.println(stid+" "+name);
+	}
+	
+	public static void main(String[] args) {
+		Student st=new Student();
+		
+		st.display();
+	}
+}
+
+5. Create a class Vehicle and encapsulate the data members.
+
+package com.atcs.oops;
+
+public class Vechicle {
+	private String Name; 
+	private String color;
+	
+	
+	public String getName() {
+	return Name;
+}
+	public void setName(String Name) {
+		this.Name = Name;
+	}
+	public String getcolor() {
+		return color;
+	}
+	public void setcolor(String color) {
+		this.color = color;
+		}
+
+public static void main(String[] args) {
+	Vechicle v=new Vechicle();
+	v.setName("BMW");
+	System.out.println(v.getName());
+	v.setcolor("Red");
+	System.out.println(v.getcolor());
+	
+}	
+}
+
+6.Create demo applications to illustrate different types of inheritance.
+
+package com.atcs.oops;
+
+class Class1
+{
+	void f1()
+	{
+		System.out.println("Class1");
+	}
+}
+
+class Class2 extends Class1
+{
+	void f2()
+	{
+		System.out.println("Class2");
+	}
+//	void display() {
+//		System.out.println("Single Inheritance");
+//	}
+}
+
+interface MultipleIn
+{
+	void fun1();
+	void fun2();
+	
+}
+
+class Class3 extends Class1
+{
+	void f3()
+	{
+		System.out.println("Class3");
+	}
+}
+
+class Class4 extends Class1
+{
+	void f4()
+	{
+		System.out.println("Class4");
+	}
+}
+
+
+class Class5 extends Class4
+{
+	void f5() 
+	{
+		System.out.println("Class5");
+	}
+	
+}
+
+
+
+public class Inher {
+
+	public static void main(String[] args) {
+		
+		Class2 c2 = new Class2();
+		c2.f1();//Single Inheritance
+		c2.f1();//Hierarchical Inheritance
+		Class3 c3 = new Class3();
+		c3.f1();//Hierarchical Inheritance
+		Class4 c4 = new Class4();
+		c4.f1();//Multilevel Inheritance
+		Class5 c5 = new Class5();
+		c5.f1();//Multilevel Inheritance
+		
+	}
+
+}
+
+
+
+
+7.Create one Animal class(superclass), Dog class(subclass) the same method in the subclass override the method in the superclass.
+
+package com.atcs.oops;
+class Animal{
+	public void dogBreed()
+	{
+		System.out.println("Pug");
+	}
+}
+
+public class OverRiding extends Animal{
+	public void dogBreed()
+	{	
+		System.out.println("German Shepherd");
+	}
+
+	public static void main(String[] args) {
+		
+			
+		OverRiding a1 =  new OverRiding();
+		a1.dogBreed();
+	}
+
+}
+
