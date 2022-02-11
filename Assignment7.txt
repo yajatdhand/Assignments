@@ -1,0 +1,181 @@
+Q1.Create an Array of Employee class and initialize array elements with different employee objects.
+
+package com.atcs.abs;
+
+class Employee
+{
+	void display()
+	{
+		System.out.println("This is class Employee");
+	}
+}
+
+public class ObjArr {
+
+	public static void main(String[] args) {
+		Employee e1 = new Employee();
+		Employee e2 = new Employee();
+		Employee e3 = new Employee();
+		Employee E[] = {e1, e2, e3};
+		System.out.println(E.toString());
+	}
+
+}
+
+
+Q2.Create a class Beverages,the Tea and Coffee sub classes are using the common method addMilk and they are implementing abstract method void addIngredient.
+
+package com.atcs.abs;
+
+abstract class Beverages
+{
+	void addMilk()
+	{
+		System.out.println("Milk has been added");
+	}
+	
+	abstract void addIngredients();
+}
+
+class Tea extends Beverages
+{
+	void addIngredients()
+	{
+		System.out.println("Tea leaves have been added");
+	}
+}
+
+class Coffee extends Beverages
+{
+	void addIngredients()
+	{
+		System.out.println("Coffee Powder has been added");
+	}
+}
+
+public class Abs {
+
+	public static void main(String[] args) {
+		
+		Tea t1 = new Tea();
+		Coffee c1 = new Coffee();
+		t1.addMilk();
+		t1.addIngredients();
+		c1.addMilk();
+		c1.addIngredients();
+	}
+
+}
+
+
+Q3.Implementing Accessibility of members across packages and classes
+
+#Package Pack1
+package com.atcs.pack1;
+
+public class ProtectedClass {
+
+	protected int age;
+	public String name;
+	
+	protected void show()
+	{
+		System.out.println("Hello");
+	}
+	
+	public void display()
+	{
+		System.out.println("This is public function");
+	}
+}
+
+#Package mypack1
+
+package com.atcs.mypack1;
+
+import com.atcs.pack1.*;
+
+public class ProtectedAccess extends ProtectedClass {
+	
+	public static void main(String args[])
+	{
+		//ProtectedClass pc1 = new ProtectedClass();
+		ProtectedAccess a1 = new ProtectedAccess();
+		//a1.show();
+		pc1.display();
+		//show();
+		pc1.age = 5;
+	}
+	
+}
+
+
+Q4.create a PrivateAccess class, private data members when we are trying to call the private data member and method of a PrivateClass class it gives us a compile-time error because private data members and methods have an access level to PrivateClass class only.
+
+package com.atcs.abs;
+
+class Hello
+{
+	private int age;
+	private String name;
+	
+	private void display()
+	{
+		System.out.println("Private member function");
+	}
+}
+
+public class Class1 {
+
+	public static void main(String[] args) {
+		
+		Hello h1 = new Hello();
+		h1.display();//not accessible as it is private member function
+		h1.age = 5;//not accessible as it is private member variable
+	}
+
+}
+
+
+Q5.create a class ProtectedClass under a package pack1 in which we declare a protected method show(), create a class ProtectedAccess under a package mypack1 and import a package pack1.
+
+#Package pack1
+
+package com.atcs.pack1;
+
+public class ProtectedClass {
+
+	protected int age;
+	public String name;
+	
+	protected void show()
+	{
+		System.out.println("Hello");
+	}
+	
+	public void display()
+	{
+		System.out.println("This is public function");
+	}
+}
+
+
+#Package mypack1
+
+package com.atcs.mypack1;
+
+import com.atcs.pack1.*;
+
+public class ProtectedAccess extends ProtectedClass {
+	
+	public static void main(String args[])
+	{
+		ProtectedAccess a1 = new ProtectedAccess();
+		a1.show();
+		a1.age = 5;
+	}
+	
+}
+
+
+
