@@ -1,0 +1,313 @@
+Session - 1.
+----------------
+
+Q1.Create a class of ArrayList and add the objects by using add method and print the all the values which you added.
+
+package com.acts.coll;
+
+import java.util.ArrayList;
+
+public class ArrayListEx {
+
+	public static void main(String[] args) {
+		
+		ArrayList a1 = new ArrayList();
+		
+		a1.add("Hello, this is A");
+		a1.add("45");
+		a1.add(new Integer(13));
+		a1.add(100.5f);
+		a1.add('b');
+		System.out.println("All values "+a1);
+		
+	}
+
+}
+
+
+Q2.Create a of Linked List add the heterogenous objects print all the objects.
+package com.acts.coll;
+
+import java.util.LinkedList; 
+
+public class LinkedListEx {
+
+	public static void main(String[] args) {
+		
+		LinkedList l1 = new LinkedList();
+		
+		l1.add(111);
+		l1.add("Yo");
+		l1.add(49.66f);
+		l1.add(true);
+		
+		System.out.println("Size "+l1.size());
+		System.out.println("contains Yo "+l1.contains("Yo"));
+		System.out.println(l1.getFirst());
+		System.out.println(l1.getLast());
+		System.out.println(l1.isEmpty());
+		System.out.println("All values "+l1);
+		System.out.println("remove "+l1.remove(3));
+		l1.add(null);
+		System.out.println("Value at index 1 "+l1.get(1));
+		
+	}
+
+}
+
+Q3.Create a LinkedList class and apply different methods for that class size(),contains(),isEmpty(),getFisrt(). print the results.
+package com.acts.coll;
+
+import java.util.LinkedList; 
+
+public class LinkedListEx {
+
+	public static void main(String[] args) {
+		
+		LinkedList l1 = new LinkedList();
+		
+		l1.add(111);
+		l1.add("Yo");
+		l1.add(49.66f);
+		l1.add(true);
+		
+		System.out.println("Size "+l1.size());
+		System.out.println("contains Yo "+l1.contains("Yo"));
+		System.out.println(l1.getFirst());
+		System.out.println(l1.getLast());
+		System.out.println(l1.isEmpty());
+		System.out.println("All values "+l1);
+		System.out.println("remove "+l1.remove(3));
+		l1.add(null);
+		System.out.println("Value at index 1 "+l1.get(1));
+		
+	}
+
+}
+
+Q4. class name is test and taking arraylist object add different objects and print the values by using for loop and foreach loop.
+package com.acts.coll;
+
+import java.util.ArrayList;
+
+public class AddEx {
+
+	public static void main(String[] args) {
+	
+		ArrayList a1 = new ArrayList();
+		ArrayList a2 = new ArrayList();
+		
+		a1.add("Hey");
+		a1.add("This");
+		a2.add("is");
+		a2.add("Yajat");
+		
+		a1.addAll(a2);
+		System.out.println(a1);
+
+		for(int i =0; i<a1.size();i++)
+		{
+			System.out.println(a1.get(i));
+		}
+		
+		for(Object o : a1)
+		{
+			System.out.println(o);
+		}
+	}
+
+}
+
+Q5.Create a class with generics(perticular type integer) and add the values print even numbers.
+package com.acts.coll;
+
+import java.util.ArrayList;
+
+public class GenericInt {
+
+	public static void main(String[] args) {
+		
+		ArrayList<Integer> a1 = new ArrayList();
+		ArrayList<Integer> a2 = new ArrayList();
+		
+		for(int i = 0; i < 10; i++)
+		{
+			a1.add(i);
+		}
+		
+		for(int i = 10; i < 20; i++)
+		{
+			a2.add(i);
+		}
+		
+			a1.addAll(a2);
+		
+		for(Object o : a1)
+		{
+			Integer i = (Integer) o;
+			
+			if(i%2 == 0)
+				System.out.println("Even "+i);
+		}
+	}
+
+}
+
+Q6.Create a ArrayList class by using Iterator print the values.
+package com.acts.coll;
+
+import java.util.Scanner;
+
+import java.util.ArrayList;
+
+import java.util.Iterator;
+
+
+public class IteratorEx {
+
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		ArrayList<String> a1 = new ArrayList();
+		
+		for(int i = 0; i < 5; i++)
+		{
+			System.out.println("Enter "+(i+1)+" element");
+			a1.add(sc.nextLine());
+			
+		}
+		
+		Iterator i1 = a1.iterator();
+		
+		while(i1.hasNext())
+		{
+			System.out.println(i1.next());
+		}
+	}
+
+}
+
+Q7.Create a class with generics and apply ListIterator cursor on that class and print the values.
+
+package com.acts.coll;
+
+import java.util.ArrayList;
+
+import java.util.ListIterator;
+
+import java.util.Scanner;
+
+public class ListIteratorEx {
+
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		//System.out.println(Math.sqrt(5));
+		ArrayList<String> a1 = new ArrayList();
+		
+		for(int i = 0; i < 5; i++)
+		{
+			System.out.println("Enter "+(i+1)+" element");
+			a1.add(sc.nextLine());
+			
+		}
+		
+		ListIterator l1 = a1.listIterator();
+		
+		System.out.println("FWD");
+		while(l1.hasNext())
+		{
+			System.out.print(l1.next()+" ");//fwd direction
+		}
+		System.out.println("");
+		System.out.println("BWD");
+		while(l1.hasPrevious())
+		{
+			System.out.print(l1.previous()+" ");//bwd direction
+		}
+	}
+
+}
+
+
+Session - 2
+---------------
+1.Create a priorityQueue class add elements and print the values.
+package collection;
+
+import java.util.Iterator;
+import java.util.PriorityQueue;
+
+public class PriorQueue {
+public static void main(String[] args) {
+	PriorityQueue<String> a=new PriorityQueue<String>();
+	a.add("Anmol");
+	a.add("Yajat");
+	a.add("Rohan");
+	a.add("Bhawuk");
+	System.out.println("A="+a);
+	Iterator itr=a.iterator();
+	while(itr.hasNext()) {
+		System.out.println(itr.next());
+	}
+	
+}
+}
+
+2.Create a of HasSet add the heterogenous objects print all the objects.
+package collection;
+
+import java.util.HashSet;
+
+public class Hash {
+public static void main(String[] args) {
+	HashSet h=new HashSet();
+	h.add("Anmol");
+	h.add("JEcRC");
+	h.add("university");
+	h.add("jaipur");
+	System.out.println(h);
+	
+}
+}
+3.Create a of Linked HashSet add the heterogenous objects print all the objects.
+package collection;
+
+import java.util.LinkedHashSet;
+
+public class Hash {
+public static void main(String[] args) {
+	LinkedHashSet h=new LinkedHashSet();
+	h.add("Anmol");
+	h.add("JEcRC");
+	h.add("bombay");
+	h.add(98);
+	System.out.println(h);
+	
+}
+}
+
+4.By using Generics create Tree Set and print the all the values.
+package collection;
+
+import java.util.Iterator;
+import java.util.TreeSet;
+
+public class Tree {
+public static void main(String[] args) {
+	TreeSet<String> t=new TreeSet();
+	t.add("abc");
+	t.add("def");
+	t.add("ghi");
+	t.add("ckl");
+	System.out.println(t);
+	Iterator itr=t.iterator();
+	while(itr.hasNext()) {
+		System.out.println(itr.next());
+	}
+}
+}
+
+
