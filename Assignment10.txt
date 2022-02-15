@@ -1,0 +1,39 @@
+Q1. Algorithm for BubbleSort.
+Step1:      BubbleSort(list)
+Step2:	for all elements of list
+         2.1    if list[i] > list[i+1]
+         2.2           swap(list[i], list[i+1])
+         2.3      end if
+         2.4   end for
+   
+Step3:       return list
+   
+Step4:      end BubbleSort
+
+Q2. Algorithm for MergeSort
+Step 1. MergeSort(arr[], l,  r)
+Step 2. If r > l
+     2.1  Find the middle point to divide the array into two halves:  
+             middle m = l+ (r-l)/2
+     2.2  Call mergeSort for first half:   
+             Call mergeSort(arr, l, m)
+     2.3  Call mergeSort for second half:
+             Call mergeSort(arr, m+1, r)
+     2.4  Merge the two halves sorted in step 2 and 3:
+             Call merge(arr, l, m, r)
+Step 3. End
+
+Q3. Algorithm for QuickSort.
+
+Step 1. quickSort(arr[], low, high)
+           {
+Step 2.    if (low < high)
+           {
+
+        2.1     pi = partition(arr, low, high);
+
+        2.2     quickSort(arr, low, pi - 1); 
+        2.3     quickSort(arr, pi + 1, high); 
+    }
+}
+Step 3. End
