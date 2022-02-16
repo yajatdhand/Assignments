@@ -1,0 +1,233 @@
+Session 1 :-
+----------------
+ 
+Q1.create a HashSet class by add 10 numbers by using for loop and extra add some more objects and print the all the values.
+
+package com.acts.coll;
+import java.util.HashSet;
+
+public class HashSetEx {
+
+	public static void main(String[] args) {
+		
+		HashSet h1 = new HashSet();
+		for(int i = 0; i < 10; i++)
+		{
+			h1.add(i);
+		}
+		h1.add("Hello");
+		h1.add(44.5f);
+		h1.add('c');
+		
+		System.out.println(h1);
+
+Q2.create a LinkedHashSet class by add 10 numbers by using for loop and extra add some more objects and print the all the values.
+
+package com.acts.coll;
+import java.util.LinkedHashSet;
+
+public class LinkedHashSetEx {
+
+	public static void main(String[] args) {
+		
+		LinkedHashSet s1 = new LinkedHashSet();
+		
+		for(int i = 0; i < 9; i++)
+		{
+			s1.add(i);
+		}
+
+		s1.add("First");
+		s1.add("2nd");
+		s1.add('3');
+		//Try manipulating order while using .equals()
+		System.out.println(s1);
+
+Q3.By using Iterator class iterate the HashSet class Elements.
+
+package com.acts.coll;
+import java.util.HashSet;
+import java.util.Iterator;
+public class HashSetEx {
+
+	public static void main(String[] args) {
+		
+		HashSet h1 = new HashSet();
+		for(int i = 0; i < 10; i++)
+		{
+			h1.add(i);
+		}
+		h1.add("Hello");
+		h1.add(44.5f);
+		h1.add('c');
+		
+		System.out.println(h1);
+
+		Iterator i1 = h1.iterator();
+		
+		while(i1.hasNext())
+		{
+			System.out.println(i1.next());
+		}
+	}
+
+}
+
+Q4.By using Iterator class iterate the LinkedHashSet Elements.
+
+package com.acts.coll;
+import java.util.LinkedHashSet;
+import java.util.Iterator;
+public class LinkedHashSetEx {
+
+	public static void main(String[] args) {
+		
+		LinkedHashSet s1 = new LinkedHashSet();
+		
+		for(int i = 0; i < 9; i++)
+		{
+			s1.add(i);
+		}
+
+		s1.add("First");
+		s1.add("2nd");
+		s1.add('3');
+		//Try manipulating order while using .equals()
+		System.out.println(s1);
+		Iterator i1 = s1.iterator();
+		while(i1.hasNext())
+		{
+			System.out.println(i1.next());
+		}
+	}
+
+}
+
+Q5.By using generics cretae hashset class apply some methods,addall(),remove().
+
+package com.acts.coll;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+public class HashSetGen {
+
+	public static void main(String[] args) {
+		
+		HashSet<String> h1 = new HashSet();
+		HashSet<String> h2 = new HashSet();
+		h1.add("This");
+		h1.add("is");
+		h1.add("x");
+		h2.add("h1 plus h2");
+		h1.remove("x");
+		System.out.println(h1);
+		h1.addAll(h2);
+		System.out.println(h1);
+		System.out.println();
+		
+
+	}
+
+}
+
+
+Session 2 :-
+----------------
+
+Q1.create a class and print the elements by using keySet.
+
+package com.acts.coll;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.Iterator;
+public class KeySetEx {
+
+	public static void main(String[] args) {
+		
+		HashMap<Integer, String> h1 = new HashMap();
+		
+		h1.put(1, "A");
+		h1.put(2, "B");
+		h1.put(3, "C");
+		System.out.println(h1);
+		
+		Set<Integer> key = h1.keySet();
+		Iterator i1 = key.iterator();
+		
+		while(i1.hasNext())
+		{
+			System.out.println(i1.next());
+		}
+
+	}
+
+}
+
+Q2.Create a class print all the elements with EntrySet.
+
+package com.acts.coll;
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.Iterator;
+public class EntrySetEx {
+
+	public static void main(String[] args) {
+		
+		HashMap<Integer, String> h1 = new HashMap();
+		
+		h1.put(1, "A");
+		h1.put(2, "B");
+		h1.put(3, "C");
+		System.out.println(h1);
+		
+		Set<Entry<Integer, String>> key = h1.entrySet();
+		Iterator i1 = key.iterator();
+		
+		while(i1.hasNext())
+		{
+			System.out.println(i1.next());
+		}
+
+	}
+
+}
+
+
+Q3.Create a class with HashMap use to print the values.
+
+package com.acts.coll;
+import java.util.HashMap;
+public class HashMapEx {
+
+	public static void main(String[] args) {
+		
+		HashMap h1 = new HashMap();
+		
+		h1.put(100, 'A');
+		h1.put('B', 200);
+		h1.put('c', 'C');
+		System.out.println(h1);
+	}
+
+}
+
+
+Q4.By Using LinkedHashMap add elements and print the values.
+
+package com.acts.coll;
+import java.util.LinkedHashMap;
+public class LinkedHashMapEx {
+
+	public static void main(String[] args) {
+		
+		LinkedHashMap<String, Integer> h1 = new LinkedHashMap();
+		
+		h1.put("A", 10);
+		h1.put("B", 20);
+		h1.put("C", 30);
+		System.out.println(h1);
+		System.out.println(h1.get("C"));
+	}
+
+}
+
