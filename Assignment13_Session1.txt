@@ -1,0 +1,155 @@
+Session 1 :-
+----------------
+
+Q1.Create a class name Demo, create a file.
+
+package file;
+
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Demo {
+
+	public static void main(String[] args) throws IOException {
+		
+		File f = new File("Yo.txt");
+		f.createNewFile();
+		System.out.println("File created");
+		
+
+	}
+
+}
+
+Q2.create a class and add file and folder into the project.
+
+package file;
+
+import java.io.File;
+//import java.io.IOException;
+
+public class FolderEx {
+
+	public static void main(String[] args) {
+		
+		File f1 = new File("Yo");
+		boolean a = f1.mkdir();
+		System.out.println(a);
+	}
+
+}
+
+Q3.create a class and write the information by using File Writer.
+
+package file;
+
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Demo {
+
+	public static void main(String[] args) throws IOException {
+		
+		FileWriter fw = new FileWriter("Yo.txt");
+		fw.write("Welcome to Yo.txt");
+		fw.close();
+
+	}
+
+}
+
+Q4.create a class and write the information by using Buffered Writer.
+
+package file;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class BufferedWriterEx {
+
+	public static void main(String[] args) throws IOException {
+	
+		FileWriter fw = new FileWriter("Yo.txt");
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write("This ");
+		bw.write("is ");
+		bw.write("entered ");
+		bw.write("using buffered writer");
+		bw.close();
+
+	}
+
+}
+
+Q5.create a class and write the information by using Print Writer.
+
+package file;
+
+import java.io.File;
+import java.io.IOException;
+//import java.io.FileWriter;
+import java.io.PrintWriter;
+public class PrintWriterEx {
+
+	public static void main(String[] args) throws IOException {
+		
+		
+		PrintWriter p1 = new PrintWriter("Yo.txt");
+		p1.write("This is print writer");;
+		p1.close();
+
+	}
+
+}
+
+Q6.create a class and read the information by using File Reader.
+
+package file;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class FileReaderEx {
+
+	public static void main(String[] args) throws IOException {
+		
+		FileReader fr = new FileReader("Yo.txt");
+		while(fr.read()!=-1)
+		{
+			char c = (char) fr.read();
+			System.out.print(c);
+		}
+	}
+
+}
+
+Q7.create a class and read the information by using Buffered Reader.
+
+package file;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class BufferedReaderEx {
+
+	public static void main(String[] args) throws IOException {
+		
+		FileReader fr = new FileReader("Yo.txt");
+		BufferedReader br = new BufferedReader(fr);
+		
+		String s = br.readLine();
+		
+		while(s!=null)
+		{
+			System.out.println(s);
+			s = br.readLine();
+		}
+		
+
+	}
+
+}
