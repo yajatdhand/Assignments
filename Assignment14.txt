@@ -1,0 +1,166 @@
+Session 1 :-
+----------------
+
+Q1.create a class and with divide two numbers by using Scanner class.(z=a/b).without try catch
+
+package com.atcs.exceptions;
+import java.util.Scanner;
+public class Div {
+
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter first no");
+		int a = sc.nextInt();
+		System.out.println("Enter second no");
+		int b = sc.nextInt();
+		System.out.println(a+" divided by "+b+" is "+a/b);
+
+	}
+
+}
+
+
+Q2.create a class and take the input from by using scanner class, as a end user take two numbers with division and observe which type of exception raised. and apply try catch blocks
+
+package com.atcs.exceptions;
+import java.util.Scanner;
+public class ExceptionEx1 {
+
+	public static void main(String[] args) {
+		
+		try {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter first no");
+		int a = sc.nextInt();
+		System.out.println("Enter second no");
+		int b = sc.nextInt();
+		System.out.println("Division is "+(a/b));
+		}
+		
+		catch(Exception e)
+		{
+			System.out.println("Don't enter denominator as 0");
+		}
+
+	}
+
+}
+
+
+Q3.Create a class with single try multi catch blocks.
+
+package com.atcs.exceptions;
+
+public class ExceptionEx2 {
+
+	public static void main(String[] args) {
+		
+		int a[] = new int[5];
+		String s = null;
+		
+		
+		try {
+			
+			System.out.println(Integer.parseInt(s));
+			int c = 5/0;
+			System.out.println(c);
+			a[5] = 10;
+		}
+		catch(ArithmeticException e) 
+		{
+			System.out.println("Denominator is 0");
+		}
+		
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			System.out.println("Invalid index");
+		}
+		catch(NumberFormatException e)
+		{
+			System.out.println("Can't convert string to integer");
+		}
+	}
+
+}
+
+
+Session 2:-
+---------------
+
+Q1.create a class with user defined exceptions.
+
+package com.atcs.exceptions;
+
+class MyException1 extends Exception
+{
+	private int age;
+	
+	public MyException1(int age)
+	{
+		this.age = age;
+	}
+	
+	public String toString()
+	{
+		return "you are not eligible to vote";
+	}
+}
+
+public class Exceptions4 {
+
+	static void validate(int age) throws MyException1{
+		if(age<18)
+			throw new MyException1(age);
+		else
+			System.out.println("you are eligible for vote");
+	}
+	
+	public static void main(String[] args) throws MyException1{
+		
+		Exceptions4.validate(40);
+		System.out.println("rest of the code");
+		
+
+	}
+
+}
+
+Q2.create a class with Marks, and valid Marks method, give some number marks are less than he/she fails otherwise pass by using throw keyword.
+
+package com.atcs.exceptions;
+
+class MyException extends Exception
+{
+	private int marks;
+	
+	public MyException(int marks)
+	{
+		this.marks = marks;
+	}
+	
+	public String toString()
+	{
+		return "you have failed";
+	}
+}
+
+public class Exceptions3 {
+
+	static void validate(int marks) throws MyException{
+		if(marks<33)
+			throw new MyException(marks);
+		else
+			System.out.println("you have scored passing marks");
+	}
+	
+	public static void main(String[] args) throws MyException{
+		
+		Exceptions3.validate(40);
+		System.out.println("rest of the code");
+		
+
+	}
+
+}
+
