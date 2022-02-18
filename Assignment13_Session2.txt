@@ -1,0 +1,60 @@
+Session 2  :-
+----------------
+
+Q1.create a class ArrayList apply without generics.
+
+package com.acts.collection;
+
+import java.util.LinkedList;
+
+import java.util.Iterator;
+
+public class WithGenerics {
+
+	public static void main(String[] args) {
+		
+		LinkedList<String> l1 = new LinkedList();
+		
+		l1.add("111");
+		l1.add("Yo");
+		//l1.add(49.66f);
+		//l1.add(true);
+		
+		Iterator i1 = l1.iterator();
+		while(i1.hasNext())
+		{
+			System.out.println(i1.next());
+		}
+	}
+
+}
+
+
+Q2.create a class LinkedList apply with generics.
+
+package com.acts.collection;
+import java.util.ArrayList;
+import java.util.Iterator;
+public class WithoutGenericsEx {
+
+	public static void main(String[] args) {
+		
+
+		ArrayList a1 = new ArrayList();
+		
+		a1.add("Hello, this is A");
+		a1.add("45");
+		a1.add(new Integer(13));
+		a1.add(100.5f);
+		a1.add('b');
+		
+		Iterator i1 = a1.iterator();
+		while(i1.hasNext())
+		{
+			System.out.println(i1.next());
+		}
+		
+	}
+
+}
+
