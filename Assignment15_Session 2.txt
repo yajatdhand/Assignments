@@ -1,0 +1,152 @@
+1.Create a Deadlock class to demonstrate deadlock in multithreading environment.
+package com.atcs.deadlockex;
+class first{
+	public synchronized void f1(second b) {
+		System.out.println("Thread 1 start execution");
+		try{
+			Thread.sleep(1000);
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		System.out.println("Thread 1 try to call second method");
+		b.last();
+	}
+	public synchronized void last(){
+		System.out.println("Inside 1 this is the last method");
+	}
+}
+
+class second{
+	public synchronized void b1(first a) {
+		System.out.println("Thread 2 start execution");
+		try{
+			Thread.sleep(1000);
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		System.out.println("Thread 2 try to call second method");
+		a.last();
+	}
+	public synchronized void last(){
+		System.out.println("Inside 2 this is the last method");
+	}
+}
+public class Deadlock1 extends Thread {
+    first f=new first();
+    second s=new second();
+    
+    public void m() {
+    	this.start();
+    	f.a1(s);
+    	}
+    public void run() {
+    	s.b1(f);
+    }
+    public static  void main(String[] args) {
+		Deadlock1 g = new Deadlock1();
+		g.m();
+	}
+}
+
+
+2.Implement wait, notify and notifyAll methods.
+package com.acts.ex;
+
+class A{
+	int money=1000;
+	synchronized void withdraw(int money) {
+		System.out.println("Withdraw Money");
+		if (this.money<money) {
+			System.out.println("Less Amount");
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			this.money-=money;
+			System.out.println("Withdraw Completed");
+		}
+		
+	}
+	synchronized void deposit(int money) {
+		System.out.println("Deposit Money");
+		this.money+=money;
+		System.out.println("Deposit Completed");
+		notify();
+	}
+}
+public class MethodsEx {
+	public static void main(String[] args) {
+		A a=new A();
+		new Thread() {
+			public void run() {
+				a.withdraw(2000);
+			}
+		}.start();
+		new Thread() {
+			public void run() {
+				a.deposit(2000);
+			}
+		}.start();
+	}
+
+}
+
+3.Create a Account class with methods withdraw, deposit, enquiry, add with synchronized keywords observe the output.
+package com.atcs.synchex;
+
+class A{
+	int money=1000;
+	synchronized void withdraw(int money) {
+		System.out.println("Withdraw Money");
+		if (this.money<money) {
+			System.out.println("Less Amount");
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			this.money-=money;
+			System.out.println("Withdraw Completed");
+		}
+		
+	}
+	synchronized void deposit(int money) {
+		System.out.println("Deposit Money");
+		this.money+=money;
+		System.out.println("Deposit Completed");
+		notify();
+	}
+	synchronized void enquiry(int money) {
+		System.out.println("Enquiry");
+		
+		System.out.println("Enquiry Completed");
+		notify();
+}}
+public class MethodsEx {
+	public static void main(String[] args) {
+		A a=new A();
+		new Thread() {
+			public void run() {
+				a.withdraw(2000);
+			}
+		}.start();
+		new Thread() {
+			public void run() {
+				a.deposit(2000);
+			}
+		}.start();
+		new Thread() {
+			public void run() {
+				a.enquiry(20000);
+			}
+		}.start();
+	}
+
+}
