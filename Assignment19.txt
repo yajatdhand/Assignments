@@ -1,0 +1,50 @@
+Q2.create a class with end-user implementation scanner class, username and password matching or not otherwise it will give an error.
+
+package com.atcs.jdbcex;
+
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class Test2 {
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		
+		Scanner sc= new Scanner(System.in);
+		System.out.println("Enter your username");
+		String uname1=sc.next();
+		System.out.println("Enter your password");
+		String pwd1=sc.next();
+		
+
+        Class.forName("org.postgresql.Driver");
+
+	 
+
+        Connection conn=DriverManager.getConnection("jdbc:postgresql://localhost/one","postgres","heyShiv17**");
+
+
+
+        	 //Statement s1 = conn.createStatement();
+        	PreparedStatement stmt=conn.prepareStatement("select * from users where uname=? and pwd=?");
+             //s1.executeUpdate("insert into users values('abc','abc')");
+             stmt.setString(1, uname1);
+             stmt.setString(2, pwd1);
+              
+              ResultSet result=stmt.executeQuery();
+              
+              if(result.next()) {
+            	  System.out.println("Login successful");
+              }else
+              {
+            	  System.out.println("Login unsuccessful, enter correct details");
+              }
+              
+              conn.close();
+	}
+}
+
