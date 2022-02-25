@@ -1,0 +1,103 @@
+Q1.Create a Product class write a query add and update and delete products.
+
+package com.atcs.jdbc;
+
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class Product {
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+
+	//Loading Driver Class
+		
+		Class.forName("org.postgresql.Driver");
+		
+	//Creating Connection
+		
+		Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost/one", "postgres","abc@123");
+		
+	//Create Statement
+		
+		Statement s1 = conn.createStatement();
+		
+	//Execute Query
+		
+		boolean re = s1.execute("create table product(pname varchar(20), pid int)");
+		
+		//Inserting values
+		s1.executeUpdate("insert into product values('milk', 1)");
+		s1.executeUpdate("insert into product values('honey', 2)");
+		s1.executeUpdate("insert into product values('bread', 3)");
+		
+		//Updating values
+		s1.executeUpdate("update product set pname = 'brown bread' where pid = 3");
+		
+		//Deleting values
+		s1.executeUpdate("delete from product where pname = 'honey'");
+
+		conn.close();
+		
+	}
+
+}
+
+
+Q2.CRUD operations on Pizza add,update,delete,create
+
+package com.atcs.jdbc;
+
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Pizza {
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+
+	//Loading Driver Class
+		
+		Class.forName("org.postgresql.Driver");
+		
+	//Creating Connection
+		
+		Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost/one", "postgres","abc@123");
+		
+	//Create Statement
+		
+		Statement s1 = conn.createStatement();
+			
+		//CRUD Operations
+		
+		//CREATE:-
+		s1.execute("create table pizza(pname varchar(20), spicy_scale int, size varchar(10))");
+
+		//Adding records into pizza :- 
+		s1.executeUpdate("insert into pizza values('Cheesy7', 2, 'large')");
+		s1.executeUpdate("insert into pizza values('PeriPeri', 4, 'medium')");
+		s1.executeUpdate("insert into pizza values('OTC', 3, 'small')");
+		
+		//READ:-
+				ResultSet rs = s1.executeQuery("select * from pizza");
+				while(rs.next())
+				{
+					System.out.println(rs.getString(1)+" "+rs.getInt(2)+" "+rs.getString(3));
+				}
+		
+		//UPDATE:-
+		s1.executeUpdate("update pizza set pname = 'Jalapeno99' where size = 'small'");
+		
+		
+		
+		//DELETE:-
+		s1.executeUpdate("delete from pizza where spicy_scale = 3");
+
+		conn.close();
+		
+	}
+
+}

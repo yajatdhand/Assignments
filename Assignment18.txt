@@ -1,0 +1,76 @@
+Q1.Create a table Student add student details modify the all the table columns by using commands.
+
+one=# insert into students values(1, 'anmol', 25, 'java');
+INSERT 0 1
+one=# insert into students values(2, 'sathya', 30, 'java');
+INSERT 0 1
+one=# insert into students values(3, 'anupam', 31, 'web dev');
+INSERT 0 1
+one=# insert into students values(4, 'abhinav', 60);
+INSERT 0 1
+one=# insert into students values(5, 'chutku', 20,'c++');
+INSERT 0 1
+
+one=# select * from students;
+ studentid | studentname | studentage | studentcourse
+-----------+-------------+------------+---------------
+         1 | anmol       |         25 | java
+         2 | sathya      |         30 | java
+         3 | anupam    |         31 | web dev
+         4 | abhinav    |         60 |
+         5 | chutku      |         20 | c++
+
+//Alter Command :
+1.
+one-# alter table students
+one-# add column percentage int;
+
+2.
+one=# alter table students drop column percentage;
+
+3.
+one=# alter table students rename studentcourse to course;
+
+4.
+one=# alter table students add check (course in ('java', 'web dev', 'c++', 'ML'));
+
+5.
+one=# alter table students add constraint unique_name unique (studentname);
+
+--------------------------------------------------------------------------------------------------------
+
+Q2.Create a tables Manager and Employee add details of both tables and join by using equijoin.
+
+one=# create table manager(man_id int, man_name varchar(20), dept varchar(20)); //creating manager table
+one=# create table employee(emp_id int, emp_name varchar(20), dept varchar(20));//creating employee table
+
+//inserting values into manager
+one=# insert into manager values(1, 'A', 'computers');
+INSERT 0 1
+one=# insert into manager values(2, 'B', 'smartphones');
+INSERT 0 1
+one=# insert into manager values(3, 'C', 'Tablets');
+INSERT 0 1
+
+//inserting values into employee
+one=# insert into employee values(100, 'Raju', 'Tablets');
+INSERT 0 1
+one=# insert into employee values(101, 'Kamlesh', 'Tablets');
+INSERT 0 1
+one=# insert into employee values(103, 'Vimla', 'computers');
+INSERT 0 1
+one=# insert into employee values(104, 'Rakesh', 'smartphones');
+INSERT 0 1
+one=# insert into employee values(104, 'Anmol', 'smartphones');
+INSERT 0 1
+
+//Equi Join : taking dept as primary key in manager and as foreign key in employee
+one=# select * from manager m, employee e where m.dept = e.dept;
+ man_id | man_name |    dept     | emp_id | emp_name |    dept
+--------+----------+-------------+--------+----------+-------------
+      3 | C        | Tablets     |    100 | Raju     | Tablets
+      3 | C        | Tablets     |    101 | Kamlesh  | Tablets
+      2 | B        | smartphones |    104 | Rakesh   | smartphones
+      2 | B        | smartphones |    104 | Anmol    | smartphones
+      1 | A        | computers   |    103 | Vimla    | computers
+(5 rows)

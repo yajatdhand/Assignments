@@ -1,0 +1,167 @@
+ASSIGNMENT NO.16=
+==================
+Session no.1=
+=============
+1.Working with Lambda & Lambda Block.
+package Assign16;
+
+interface Ex{
+	public void m();
+}
+public class FunctionalEx {
+public static void main(String[] args) {
+    Ex e = () -> System.out.println("Yo Boys");
+    e.m();
+}
+}
+
+2.Create a Runnable interface and apply lamda expression.
+package Assign16;
+
+public class LambdaEx {
+public static void main(String[] args) {
+	Runnable r = () ->{
+		for(int i=0;i<10;i++) {
+			System.out.println("Child Thread");
+		}
+	};
+	Thread t=new Thread(r);
+	t.start();
+	for(int i=0;i<10;i++) {
+		System.out.println("Main Thread");
+	}
+}
+}
+
+3.Create a class SqureRoot apply lamdaexpreesions.
+package Assign16;
+
+ interface i1{
+	public void m(int num);
+}
+public class SqureRoot {
+	
+
+	public static void main(String[] args) {
+	i1 i =n ->System.out.println(Math.sqrt(n));
+	i.m(36);
+	}
+}
+
+4.Create a class with addition method with parameters.
+package Assign16;
+
+interface i2{
+	public void n1(int a, int b) ;
+		
+	
+}
+public class AdditionEx {
+   public static void main(String[] args) {
+	   i2 i =(int a,int b) ->System.out.println(a +b);
+	   i.n1(10,10);
+    }
+}
+
+
+
+5.Create a ArrayList class add values apply lamda expression.
+package Assign16;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+class F1 {
+	int id;
+	String name;
+
+	public F1(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+
+	public String toString() {
+		return id +" "+ name ;
+	}
+
+}
+
+public class ArrLambda {
+	public static void main(String[] args) {
+		ArrayList<F1> ar=new ArrayList<F1>();
+		ar.add(new F1(100,"Anmol"));
+		ar.add(new F1(101,"khatod"));
+		System.out.println(ar);
+		Collections.sort(ar,(e1,e2)->(e1.id>e2.id)?-1:(e1.id>e2.id)?1:0);
+		System.out.println(ar);
+	}
+}
+
+
+Session no.2=
+=============
+
+1.Take predicate functional interface test given value even number or not.
+package Assign16;
+
+import java.util.function.Predicate;
+
+
+public class FunctionalEx {
+public static void main(String[] args) {
+	Predicate<Integer> p=i -> i%2==0;
+	System.out.println(p.test(10));
+}
+}
+
+2.Take predicate functional interface test length of the given name is greater than 6 or not?
+package Assign16;
+
+import java.util.function.Predicate;
+
+
+public class FunctionalEx {
+public static void main(String[] args) {
+//	Predicate<Integer> p=i -> i%2==0;
+//	System.out.println(p.test(10));
+	String[] s= {"Yajat","Dhand","Jaipur"};
+	Predicate<String> p= a -> a.length()>6;
+	for(String s1:s) {
+		System.out.println(p.test(s1));
+	}
+}
+}
+
+3.Create a employee class with ArrayList class add key value pair name,salary, findout salary>7000?
+package Assign16;
+
+import java.util.ArrayList;
+import java.util.function.Predicate;
+class Employee{
+	String name;
+	int sal;
+	public Employee(String name, int sal) {
+		super();
+		this.name = name;
+		this.sal = sal;
+	}
+	
+	public String toString() {
+		return "name=" + name +" "+ "sal=" + sal ;
+	}
+}
+
+public class FunctionalEx {
+public static void main(String[] args) {
+	ArrayList<Employee> ar=new ArrayList<Employee>();
+	ar.add(new Employee("Anmol",100000000));
+	ar.add(new Employee("MukeshAmbani",1000));
+	for(Employee e:ar) {
+		Predicate<Employee> p = i -> e.sal>7000;
+		System.out.println(p.test(e));
+	}
+}
+}
+
+
