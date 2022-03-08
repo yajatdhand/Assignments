@@ -1,0 +1,231 @@
+Example 1-
+package com.acts.regexps;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Demo1 {
+
+	public static void main(String[] args) {
+
+		Pattern p1 = Pattern.compile("abab");
+		Matcher m1 = p1.matcher("ababababababbcdefababab");
+		
+		while(m1.find())
+		{
+			System.out.println(+m1.start()+" "+m1.end()+" "+m1.group());
+		}
+	}
+
+}
+
+Example 2-
+package com.acts.regexps;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Demo2 {
+
+	public static void main(String[] args) {
+
+		Pattern p1 = Pattern.compile("[abc]");
+		Matcher m1 = p1.matcher("a gfg bc b c");
+		
+		while(m1.find())
+		{
+			System.out.println("character "+m1.group()+" at "+m1.start()+" index");
+		}
+	}
+
+}
+
+Example 3-
+package com.acts.regexps;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Demo3 {
+
+	public static void main(String[] args) {
+
+		Pattern p1 = Pattern.compile("\\s");
+		Matcher m1 = p1.matcher("a gfg bc b c");
+		
+		while(m1.find())
+		{
+			System.out.println("space at "+m1.start()+" index");
+		}
+	}
+
+}
+
+
+Example 4-
+package com.acts.regexps;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Demo4 {
+
+	public static void main(String[] args) {
+
+		Pattern p1 = Pattern.compile("\\s");
+		//Matcher m1 = p1.matcher("a gfg bc b c");
+		
+		String s[] = p1.split("This is split function");
+		
+		for(String s1 : s)
+		{
+			System.out.println(s1);
+		}
+	}
+
+}
+
+Example 5-
+package com.acts.regexps;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Demo5 {
+
+	public static void main(String[] args) {
+
+		Pattern p1 = Pattern.compile("(0|91)?[6-9][0-9]{9}");
+		Matcher m1 = p1.matcher(args[0]);
+		
+		if(m1.find() && m1.group().equals(args[0]))
+		{
+			System.out.println("Valid Number");
+		}
+		else
+			System.out.println("Invalid number");
+	}
+
+}
+
+
+Example 6-
+package Assign19;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class Demo6 {
+public static void main(String[] args) {
+	LocalDate d = LocalDate.now();
+	System.out.println("Date: "+d);
+	
+	LocalTime t = LocalTime.now();
+	System.out.println("Time: "+t);
+}
+}
+
+
+Output-
+Date: 2022-03-07
+Time: 15:16:05.453294500
+
+
+Example 7-
+package com.acts.regexps;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+public class Demo7 {
+public static void main(String[] args) {
+	LocalDate d = LocalDate.now();
+	System.out.println("Date: "+d);
+	int dd=d.getDayOfMonth();
+	int mm=d.getMonthValue();
+	int yy=d.getYear();
+	System.out.println(dd+" "+mm+" "+yy);
+	System.out.printf("%d-%d-%d",dd,mm,yy);
+	System.out.println("\n");
+	
+	LocalTime t = LocalTime.now();
+	System.out.println("Time: "+t);
+	int h = t.getHour();
+	int m = t.getMinute();
+	int s = t.getSecond();
+	int n= t.getNano();
+	System.out.println(h+" "+m+" "+s+" "+n);
+	System.out.printf("%d-%d-%d-%d",h,m,s,n);
+	System.out.println("\n");
+	
+	LocalDateTime dt = LocalDateTime.now();
+	System.out.println(dt);
+	System.out.println("\n");
+	
+	LocalDateTime dt1=LocalDateTime.of(yy, mm, dd, h, m, s,n);
+	System.out.println(dt1);
+	System.out.println("After six months: "+dt1.plusMonths(6));
+	System.out.println("Before six months: "+dt1.minusMonths(6));
+	
+}
+}
+
+Output-
+Date: 2022-03-07
+7 3 2022
+7-3-2022
+
+Time: 15:40:07.402353200
+15 40 7 402353200
+15-40-7-402353200
+
+2022-03-07T15:40:07.402353200
+
+
+2022-03-07T15:40:07.402353200
+After six months: 2022-09-07T15:40:07.402353200
+Before six months: 2021-09-07T15:40:07.402353200
+
+Example 8-  (leap year)
+
+package com.acts.regexps;
+
+import java.time.Year;
+import java.util.Scanner;
+
+public class Demo8 {
+public static void main(String[] args) {
+	Scanner sc=new Scanner(System.in);
+	System.out.println("Enter year: ");
+	int n = sc.nextInt();
+	
+	Year y = Year.of(n);
+	
+	if(y.isLeap()) {
+		System.out.printf("%d year is a leap year",n);
+	}
+	else {
+		System.out.printf("%d year is not a leap year",n);
+	}
+}
+}
+
+
+Example 9-
+package com.acts.regexps;
+
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
+public class Demo9 {
+public static void main(String[] args) {
+	ZoneId z=ZoneId.systemDefault();
+	System.out.println(z);
+	System.out.println("\n");
+	
+	ZoneId id=ZoneId.of("Asia/Singapore");
+	ZonedDateTime dt=ZonedDateTime.now(id);
+	System.out.println(dt);
+}
+}
