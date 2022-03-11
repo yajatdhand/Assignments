@@ -1,0 +1,277 @@
+SPRING : -
+=========
+
+Example 1 : -
+------------------
+1. Employee Class : -
+----------------------------
+package com.acts.springex;
+
+public class Emp {
+
+	private int Eid;
+	private String Ename;
+	private int Esal;
+	private String Eadd;
+	public int getEid() {
+		return Eid;
+	}
+	public void setEid(int eid) {
+		Eid = eid;
+	}
+	public String getEname() {
+		return Ename;
+	}
+	public void setEname(String ename) {
+		Ename = ename;
+	}
+	public int getEsal() {
+		return Esal;
+	}
+	public void setEsal(int esal) {
+		Esal = esal;
+	}
+	public String getEadd() {
+		return Eadd;
+	}
+	public void setEadd(String eadd) {
+		Eadd = eadd;
+	}
+	
+	public Emp() {
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return "Emp [Eid=" + Eid + ", Ename=" + Ename + ", Esal=" + Esal + ", Eadd=" + Eadd + "]";
+	}
+	public Emp(int eid, String ename, int esal, String eadd) {
+		super();
+		Eid = eid;
+		Ename = ename;
+		Esal = esal;
+		Eadd = eadd;
+	}
+	
+	
+}
+
+2. SpringConfig.xml : -
+-----------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<context:annotation-config></context:annotation-config>
+
+<bean class="com.acts.springex.Emp" id="yoboys">    <!--Employee sleeping=new Employee();  -->
+
+<constructor-arg value="1"> </constructor-arg>
+<constructor-arg value="abc"> </constructor-arg>
+<constructor-arg value="10000"> </constructor-arg>
+<constructor-arg value="jpr"> </constructor-arg>
+</bean>
+
+
+</beans>
+
+3.Test Class : -
+--------------------
+package com.acts.springex;
+
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+
+public class Test {
+
+	public static void main(String[] args) {
+
+		
+		Resource rs = new ClassPathResource("springConfig.xml");
+		
+		BeanFactory bf = new XmlBeanFactory(rs);
+		
+		Emp e1 = (Emp) bf.getBean("yoboys");
+		
+		System.out.println(e1);
+		
+		
+	}
+
+}
+
+Example 2 : -
+-----------------
+#UsingAutoWiring
+
+1. Employee Class : -
+----------------------------
+package com.acts.springex;
+
+public class Emp {
+
+	private int Eid;
+	private String Ename;
+	private int Esal;
+	private String Eadd;
+	Address address;
+	public int getEid() {
+		return Eid;
+	}
+	public void setEid(int eid) {
+		Eid = eid;
+	}
+	public String getEname() {
+		return Ename;
+	}
+	public void setEname(String ename) {
+		Ename = ename;
+	}
+	public int getEsal() {
+		return Esal;
+	}
+	public void setEsal(int esal) {
+		Esal = esal;
+	}
+	public String getEadd() {
+		return Eadd;
+	}
+	public void setEadd(String eadd) {
+		Eadd = eadd;
+	}
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	@Override
+	public String toString() {
+		return "Emp [Eid=" + Eid + ", Ename=" + Ename + ", Esal=" + Esal + ", Eadd=" + Eadd + ", address=" + address
+				+ "]";
+	}
+	public Emp(int eid, String ename, int esal, String eadd, Address address) {
+		super();
+		Eid = eid;
+		Ename = ename;
+		Esal = esal;
+		Eadd = eadd;
+		this.address = address;
+	}
+	
+	public Emp() {
+		// TODO Auto-generated constructor stub
+	}
+	
+}
+
+2. Address Class : -
+--------------------------
+package com.acts.springex;
+
+public class Address {
+
+	private String Colony;
+	private int Pincode;
+	private String District;
+	
+	public String getColony() {
+		return Colony;
+	}
+	public void setColony(String colony) {
+		Colony = colony;
+	}
+	public int getPincode() {
+		return Pincode;
+	}
+	public void setPincode(int pincode) {
+		Pincode = pincode;
+	}
+	public String getDistrict() {
+		return District;
+	}
+	public void setDistrict(String district) {
+		District = district;
+	}
+	
+	public Address() {
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return "Address [Colony=" + Colony + ", Pincode=" + Pincode + ", District=" + District + "]";
+	}
+	public Address(String colony, int pincode, String district) {
+		super();
+		Colony = colony;
+		Pincode = pincode;
+		District = district;
+	}
+	
+	
+}
+
+3. SpringConfig.xml : -
+-----------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<context:annotation-config></context:annotation-config>
+
+<bean class="com.acts.springex.Emp" id="yoboys" autowire = "byType">    <!--Employee sleeping=new Employee();  -->
+
+<constructor-arg value="1"> </constructor-arg>
+<constructor-arg value="abc"> </constructor-arg>
+<constructor-arg value="10000"> </constructor-arg>
+<constructor-arg value="jpr"> </constructor-arg>
+<constructor-arg ref="yo"> </constructor-arg>
+
+
+</bean>
+
+<bean class="com.acts.springex.Address" id="yo">    <!--Employee sleeping=new Employee();  -->
+<constructor-arg value="Triveni"> </constructor-arg>
+<constructor-arg value="302020"> </constructor-arg>
+<constructor-arg value="jpr"> </constructor-arg>
+</bean>
+
+
+</beans>
+
+4. Test Class : -
+---------------------
+package com.acts.springex;
+
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+
+public class Test {
+
+	public static void main(String[] args) {
+
+		
+		Resource rs = new ClassPathResource("springConfig.xml");
+		
+		BeanFactory bf = new XmlBeanFactory(rs);
+		
+		Emp e1 = (Emp) bf.getBean("yoboys");
+		
+		System.out.println(e1);
+		
+		
+	}
+
+}
