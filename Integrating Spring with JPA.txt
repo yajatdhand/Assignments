@@ -1,0 +1,745 @@
+com.cap.entity-
+---------------
+Employee.java-
+--------------
+package com.cap.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="emptable")
+public class Employee {
+		@Id
+		@GeneratedValue
+		private int eid;
+		private String ename;
+		private int esal;
+		private String city;
+		public int getEid() {
+			return eid;
+		}
+		public void setEid(int eid) {
+			this.eid = eid;
+		}
+		public String getEname() {
+			return ename;
+		}
+		public void setEname(String ename) {
+			this.ename = ename;
+		}
+		public int getEsal() {
+			return esal;
+		}
+		public void setEsal(int esal) {
+			this.esal = esal;
+		}
+		public String getCity() {
+			return city;
+		}
+		public void setCity(String city) {
+			this.city = city;
+		}
+		
+		public Employee() {
+			// TODO Auto-generated constructor stub
+		}
+		@Override
+		public String toString() {
+			return "Employee [eid=" + eid + ", ename=" + ename + ", esal=" + esal + ", city=" + city + "]";
+		}
+		public Employee(int eid, String ename, int esal, String city) {
+			super();
+			this.eid = eid;
+			this.ename = ename;
+			this.esal = esal;
+			this.city = city;
+		}
+		
+		
+}
+
+
+com.cap.service-
+----------------
+EmployeeService.java-
+---------------------
+package com.cap.service;
+
+import java.util.List;
+
+import com.cap.entity.Employee;
+
+public interface EmployeeService {
+	public abstract void addEmployee(Employee employee);
+
+	public abstract void updateEmployee(Employee employee);
+
+	public abstract void removeEmployee(int employee);
+
+	public abstract Employee findEmployeeById(int eid);
+
+	public abstract List<Employee> listEmployee();
+}
+
+EmployeeServiceImpl.java-
+-------------------------
+package com.cap.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cap.dao.EmployeeDao;
+import com.cap.entity.Employee;
+
+@Service("employeeService")
+public class EmployeeServiceImpl implements EmployeeService {
+	@Autowired
+	private EmployeeDao dao;
+
+	public void addEmployee(Employee emp) {
+		// TODO Auto-generated method stub
+		dao.addEmployee(emp);//persist()
+	}
+
+	public void updateEmployee(Employee emp) {
+		// TODO Auto-generated method stub
+		dao.updateEmployee(emp);
+	}
+
+	public void removeEmployee(int emp) {
+		// TODO Auto-generated method stub
+		dao.removeEmployee(emp);
+	}
+
+	public Employee findEmployeeById(int eid) {
+		// TODO Auto-generated method stub
+		Employee emp = dao.getEmployeeById(eid);
+		return emp;
+	}
+
+	public List<Employee> listEmployee() {
+		// TODO Auto-generated method stub
+		List<Employee> l1 = dao.listEmployee();
+		return l1;
+	}
+
+}
+
+
+com.cap.dao-
+------------
+EmployeeDao.java-
+-----------------
+package com.cap.dao;
+
+import java.util.List;
+
+import com.cap.entity.Employee;
+
+public interface EmployeeDao {
+	public abstract Employee getEmployeeById(int eid);
+
+	public abstract void addEmployee(Employee emp);
+
+	public abstract void removeEmployee(int emp);
+
+	public abstract void updateEmployee(Employee emp);
+
+	public abstract List<Employee> listEmployee();
+}
+
+EmployeeDaoImpl.java-
+---------------------
+package com.cap.dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.cap.entity.Employee;
+
+@Repository
+@Transactional
+public class EmployeeDaoImpl implements EmployeeDao {
+	
+	@PersistenceContext  
+	private EntityManager entityManager;
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
+	public Employee getEmployeeById(int eid) {
+		// TODO Auto-generated method stub
+		Employee emp = entityManager.find(Employee.class, eid);
+		return emp;
+	}
+
+	public void addEmployee(Employee emp) {
+		// TODO Auto-generated method stub
+		entityManager.persist(emp);
+	}
+
+	public void removeEmployee(int emp) {
+		// TODO Auto-generated method stub
+		Employee emp1=getEmployeeById(emp);
+		entityManager.remove(emp1);
+	}
+
+	public void updateEmployee(Employee emp) {
+		// TODO Auto-generated method stub
+		entityManager.merge(emp);
+	}
+
+	public List<Employee> listEmployee() {
+		// TODO Auto-generated method stub
+		TypedQuery<Employee> q2 = entityManager.createQuery("select c from Employee c", Employee.class);
+		List<Employee> l1 = q2.getResultList();
+		return l1;
+	}
+
+}
+
+
+com.cap.ui-
+-----------
+EmployeeUI.java-
+----------------
+package com.cap.ui;
+
+import java.util.List;
+import java.util.Scanner;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.cap.config.AppConfig;
+import com.cap.entity.Employee;
+import com.cap.service.EmployeeService;
+import com.cap.service.EmployeeServiceImpl;
+
+public class EmployeeUI {
+	static Scanner sc = new Scanner(System.in);
+	Employee emp = new Employee();
+	public static void main(String[] args) {
+		
+		ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+		
+		EmployeeService service = context.getBean("employeeService",EmployeeServiceImpl.class);
+		while (true) {
+			System.out.println("\n\n\n\n\nEmployee Crud Operation:");
+			System.out.println("1.Create Employee");
+			System.out.println("2.Find Employee");
+			System.out.println("3.Update Employee");
+			System.out.println("4.Delete Employee");
+			System.out.println("5.List All Employees");
+			System.out.println("6.Exit");
+			System.out.println("Enter your choice:");
+			int ch = sc.nextInt();
+			switch (ch) {
+			case 1:
+				System.out.println("Enter Employee Name: ");
+				String ename = sc.next();
+				System.out.println("Enter Employee Salary: ");
+				int esal = sc.nextInt();
+				System.out.println("Enter Employee City: ");
+				String city = sc.next();
+				
+				Employee emp = new Employee();
+				emp.setEname(ename);
+				emp.setEsal(esal);
+				emp.setCity(city);
+				service.addEmployee(emp);
+				System.out.println("Employee Inserted");
+				break;
+			case 2:
+				System.out.println("Enter Id to fetch Employee:");
+				int eid = sc.nextInt();
+				Employee findemp = service.findEmployeeById(eid);
+				if (findemp == null) {
+					System.out.println("no employees present");
+				} else {
+					System.out.println("Employee Id:" + findemp.getEid());
+					System.out.println("Employee Name:" + findemp.getEname());
+					System.out.println("Employee Salary:" + findemp.getEsal());
+					System.out.println("Employee City:" + findemp.getCity());}
+				break;
+			case 3:
+				System.out.println("Enter Id to fetch Employee:");
+				int id = sc.nextInt();
+				System.out.println("Enter the name to update:");
+				String updename = sc.next();
+				Employee updateemp = service.findEmployeeById(id);
+				if (updateemp == null) {
+					System.out.println("No employee present");
+				} else {
+					updateemp.setEname(updename);
+					service.updateEmployee(updateemp);
+					System.out.println("Employee name Updated");
+				}
+				break;
+			case 4:
+				System.out.println("Enter Id to Delete Employee:");
+				int r = sc.nextInt();
+				service.removeEmployee(r);
+				System.out.println("Employee deleted successfully");
+				break;
+			case 5:
+				List<Employee> l1 = service.listEmployee();
+				System.out.println("\t Employee Id  \t Employee Name  \t Employee Salary \t City");
+				System.out.println("********************************************");
+				for (Employee e1 : l1) {
+					System.out.println(" \t     " + e1.getEid() + " \t\t "
+							+ e1.getEname() + " \t \t  \t    " + e1.getEsal()
+							+ " \t \t \t     " + e1.getCity());}
+				System.out.println("********************************************");
+				break;
+			case 6:
+				System.out.println("Exited from Employee application");
+				sc.close();
+				System.exit(1);
+			default:
+				System.out.println("Wrong choice....\n Please Enter Your Choice Again...");
+				break;
+			}
+		}
+	}
+}
+
+
+com.cap.config-
+---------------
+AppConfig.java-
+---------------
+package com.cap.config;
+import java.util.Properties;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+@Configuration
+@EnableTransactionManagement
+@ComponentScan(basePackages = "com.cap")
+public class AppConfig {
+	@Bean
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+		LocalContainerEntityManagerFactoryBean em=new LocalContainerEntityManagerFactoryBean();
+		em.setDataSource(oracleDataSource());
+		em.setPackagesToScan("com.cap.entity");
+		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+		em.setJpaVendorAdapter(vendorAdapter);
+		em.setJpaProperties(oracleProperties());
+		return em;
+	}
+	@Bean
+	public DataSource oracleDataSource() {
+		try {
+			DriverManagerDataSource dataSource = new DriverManagerDataSource();
+			dataSource.setDriverClassName("org.postgresql.Driver");
+			dataSource.setUrl("jdbc:postgresql://localhost:5432/one");
+			dataSource.setUsername("postgres");
+			dataSource.setPassword("12345@");
+		
+			return dataSource;
+		} catch (Throwable e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	Properties oracleProperties() {
+		Properties properties = new Properties();
+		properties.setProperty("hibernate.dialect","org.hibernate.dialect.PostgreSQLDialect");
+		properties.setProperty("hibernate.hbm2ddl.auto", "create");
+		properties.setProperty("hibernate.show_sql", "true");
+		properties.setProperty("hibernate.format_sql", "true");
+		properties.setProperty("spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation", "true");
+		return properties;
+	}
+	@Bean
+	public PlatformTransactionManager transactionManager(
+			EntityManagerFactory emf) {
+		JpaTransactionManager transactionManager = new JpaTransactionManager();
+		transactionManager.setEntityManagerFactory(emf);
+		return transactionManager;
+	}
+	@Bean
+	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+		return new PersistenceExceptionTranslationPostProcessor();
+	}
+
+	
+}
+
+
+pom.xml-
+--------
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.gradle</groupId>
+  <artifactId>SpringMVCmaven</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>SpringMVCmaven</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-orm</artifactId>
+    <version>5.2.9.RELEASE</version>
+</dependency>
+    <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+<dependency>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <version>42.2.5</version>
+</dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+    <version>5.2.9.RELEASE</version>
+</dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>5.1.5.RELEASE</version>
+</dependency>
+    <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-core</artifactId>
+    <version>5.3.7.Final</version>
+</dependency>
+
+<dependency>
+    <groupId>c3p0</groupId>
+    <artifactId>c3p0</artifactId>
+    <version>0.9.1.2</version>
+</dependency>
+    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-core</artifactId>
+    <version>2.9.8</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa -->
+<dependency>
+    <groupId>org.springframework.data</groupId>
+    <artifactId>spring-data-jpa</artifactId>
+    <version>1.7.0.RELEASE</version>
+</dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-jdbc</artifactId>
+    <version>5.2.9.RELEASE</version>
+</dependency>
+    
+  </dependencies>
+</project>
+
+
+Output-
+---------
+Hibernate: 
+    
+    drop table if exists emptable cascade
+Hibernate: 
+    
+    drop sequence if exists hibernate_sequence
+Hibernate: create sequence hibernate_sequence start 1 increment 1
+Hibernate: 
+    
+    create table emptable (
+       eid int4 not null,
+        city varchar(255),
+        ename varchar(255),
+        esal int4 not null,
+        primary key (eid)
+    )
+Mar 21, 2022 1:19:14 AM org.hibernate.tool.schema.internal.SchemaCreatorImpl applyImportSources
+INFO: HHH000476: Executing import script 'org.hibernate.tool.schema.internal.exec.ScriptSourceInputNonExistentImpl@74abbb'
+
+
+
+
+
+Employee Crud Operation:
+1.Create Employee
+2.Find Employee
+3.Update Employee
+4.Delete Employee
+5.List All Employees
+6.Exit
+Enter your choice:
+1
+Enter Employee Name: 
+Yajat
+Enter Employee Salary: 
+10000
+Enter Employee City: 
+Jaipur
+Hibernate: 
+    select
+        nextval ('hibernate_sequence')
+Hibernate: 
+    insert 
+    into
+        emptable
+        (city, ename, esal, eid) 
+    values
+        (?, ?, ?, ?)
+Employee Inserted
+
+
+
+
+
+Employee Crud Operation:
+1.Create Employee
+2.Find Employee
+3.Update Employee
+4.Delete Employee
+5.List All Employees
+6.Exit
+Enter your choice:
+1
+Enter Employee Name: 
+abc
+Enter Employee Salary: 
+12000
+Enter Employee City: 
+Pune
+Hibernate: 
+    select
+        nextval ('hibernate_sequence')
+Hibernate: 
+    insert 
+    into
+        emptable
+        (city, ename, esal, eid) 
+    values
+        (?, ?, ?, ?)
+Employee Inserted
+
+
+
+
+
+Employee Crud Operation:
+1.Create Employee
+2.Find Employee
+3.Update Employee
+4.Delete Employee
+5.List All Employees
+6.Exit
+Enter your choice:
+2
+Enter Id to fetch Employee:
+1
+Hibernate: 
+    select
+        employee0_.eid as eid1_0_0_,
+        employee0_.city as city2_0_0_,
+        employee0_.ename as ename3_0_0_,
+        employee0_.esal as esal4_0_0_ 
+    from
+        emptable employee0_ 
+    where
+        employee0_.eid=?
+Employee Id:1
+Employee Name:Yajat
+Employee Salary:10000
+Employee City:Jaipur
+
+
+
+
+
+Employee Crud Operation:
+1.Create Employee
+2.Find Employee
+3.Update Employee
+4.Delete Employee
+5.List All Employees
+6.Exit
+Enter your choice:
+3
+Enter Id to fetch Employee:
+2
+Enter the name to update:
+MunnaBhai
+Hibernate: 
+    select
+        employee0_.eid as eid1_0_0_,
+        employee0_.city as city2_0_0_,
+        employee0_.ename as ename3_0_0_,
+        employee0_.esal as esal4_0_0_ 
+    from
+        emptable employee0_ 
+    where
+        employee0_.eid=?
+Hibernate: 
+    select
+        employee0_.eid as eid1_0_0_,
+        employee0_.city as city2_0_0_,
+        employee0_.ename as ename3_0_0_,
+        employee0_.esal as esal4_0_0_ 
+    from
+        emptable employee0_ 
+    where
+        employee0_.eid=?
+Hibernate: 
+    update
+        emptable 
+    set
+        city=?,
+        ename=?,
+        esal=? 
+    where
+        eid=?
+Employee name Updated
+
+
+
+
+
+Employee Crud Operation:
+1.Create Employee
+2.Find Employee
+3.Update Employee
+4.Delete Employee
+5.List All Employees
+6.Exit
+Enter your choice:
+2
+Enter Id to fetch Employee:
+2
+Hibernate: 
+    select
+        employee0_.eid as eid1_0_0_,
+        employee0_.city as city2_0_0_,
+        employee0_.ename as ename3_0_0_,
+        employee0_.esal as esal4_0_0_ 
+    from
+        emptable employee0_ 
+    where
+        employee0_.eid=?
+Employee Id:2
+Employee Name:MunnaBhai
+Employee Salary:12000
+Employee City:Pune
+
+
+
+
+
+Employee Crud Operation:
+1.Create Employee
+2.Find Employee
+3.Update Employee
+4.Delete Employee
+5.List All Employees
+6.Exit
+Enter your choice:
+4
+Enter Id to Delete Employee:
+2
+Hibernate: 
+    select
+        employee0_.eid as eid1_0_0_,
+        employee0_.city as city2_0_0_,
+        employee0_.ename as ename3_0_0_,
+        employee0_.esal as esal4_0_0_ 
+    from
+        emptable employee0_ 
+    where
+        employee0_.eid=?
+Hibernate: 
+    delete 
+    from
+        emptable 
+    where
+        eid=?
+Employee deleted successfully
+
+
+
+
+
+Employee Crud Operation:
+1.Create Employee
+2.Find Employee
+3.Update Employee
+4.Delete Employee
+5.List All Employees
+6.Exit
+Enter your choice:
+5
+Mar 21, 2022 1:20:54 AM org.hibernate.hql.internal.QueryTranslatorFactoryInitiator initiateService
+INFO: HHH000397: Using ASTQueryTranslatorFactory
+Hibernate: 
+    select
+        employee0_.eid as eid1_0_,
+        employee0_.city as city2_0_,
+        employee0_.ename as ename3_0_,
+        employee0_.esal as esal4_0_ 
+    from
+        emptable employee0_
+	 Employee Id  	 Employee Name  	 Employee Salary 	 City
+********************************************
+ 	     1 		 Yajat 	 	  	    10000 	 	 	     Jaipur
+********************************************
+
+
+
+
+
+Employee Crud Operation:
+1.Create Employee
+2.Find Employee
+3.Update Employee
+4.Delete Employee
+5.List All Employees
+6.Exit
+Enter your choice:
+6
+Exited from Employee application

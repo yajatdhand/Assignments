@@ -1,0 +1,283 @@
+16/03/2022-
+-----------
+Example 1-(using xml file)-
+------------------------------
+pom.xml-
+--------
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.maven</groupId>
+  <artifactId>Punjab</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Punjab Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+    <version>5.2.9.RELEASE</version>
+</dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>5.2.9.RELEASE</version>
+</dependency>
+
+    
+  </dependencies>
+  <build>
+    <finalName>Punjab</finalName>
+  </build>
+</project>
+
+index.jsp-
+----------
+<html>
+<body>
+
+<form action="add">
+
+Enter first number:<input type="text" name="t1"/><br></br>
+Enter second number:<input type="text" name="t2"/><br>
+
+<input type="submit"/> 
+</form>
+
+</body>
+</html>
+
+AddCont.java-
+-------------
+package com.demo;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class AddCont {
+		@RequestMapping("/add")
+		public ModelAndView add(HttpServletRequest request,HttpServletResponse response) {
+			
+			
+			int i =Integer.parseInt(request.getParameter("t1"));
+			int j =Integer.parseInt(request.getParameter("t2"));
+			int k = i+j;
+			
+			ModelAndView mv=new ModelAndView();
+			
+			mv.setViewName("display.jsp");
+			mv.addObject("result",k);
+			return mv;
+			
+		}
+}
+
+
+web.xml-
+--------
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  
+  <servlet>
+  		<servlet-name>addition</servlet-name>
+  		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  		<servlet-name>addition</servlet-name>
+  		<url-pattern>/</url-pattern>
+  </servlet-mapping>
+</web-app>
+
+addition-servlet-
+------------------
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:mvc="http://www.springframework.org/schema/mvc" 
+    xmlns:ctx="http://www.springframework.org/schema/context" 
+    xsi:schemaLocation="  
+        http://www.springframework.org/schema/beans  
+        http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://www.springframework.org/schema/context  
+        http://www.springframework.org/schema/context/spring-context.xsd  
+        http://www.springframework.org/schema/mvc  
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">  
+  
+
+    <!-- Provide support for component scanning -->  
+    <ctx:annotation-config></ctx:annotation-config>
+    <context:component-scan base-package="com.demo"></context:component-scan>  
+  
+    <!--Provide support for conversion, formatting and validation -->  
+    <mvc:annotation-driven/>  
+  
+</beans>
+
+display.jsp-
+------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1" isELIgnored="false"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<%-- Result is : <%= request.getAttribute("result") %> --%>
+Result is: ${result}
+</body>
+</html>
+
+***************************************************************************************************************************************
+Example2-(using java file)-
+----------------------------
+pom.xml-
+-----------
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.maven</groupId>
+  <artifactId>PunjabJava</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>PunjabJava Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+    <version>5.2.9.RELEASE</version>
+</dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>5.2.9.RELEASE</version>
+</dependency>
+  </dependencies>
+  <build>
+    <finalName>PunjabJava</finalName>
+  </build>
+</project>
+
+index.jsp-
+----------
+<html>
+<body>
+<form action="add">
+Enter 1st number:<input type="text" name="x1"><br><br>
+Enter 2nd Number:<input type="text" name="x2"><br>
+<input type="submit">
+</form>
+</body>
+</html>
+
+addition.jsp-
+-------------
+<html>
+<body>
+<form action="add">
+Enter 1st number:<input type="text" name="x1"><br><br>
+Enter 2nd Number:<input type="text" name="x2"><br>
+<input type="submit">
+</form>
+</body>
+</html>
+
+FirstController.java-
+---------------------
+package com.demojava;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class FirstCont {
+	@RequestMapping("/add")
+		public ModelAndView add(@RequestParam("x1") int a,@RequestParam("x2") int b) {
+			ModelAndView mv = new ModelAndView();
+			int k = a+b;
+			
+			mv.addObject("result",k);
+			mv.setViewName("addition.jsp");
+			return mv;
+			
+		}
+}
+
+FrontController.java-
+---------------------
+package com.demojava;
+
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+public class FrontController extends AbstractAnnotationConfigDispatcherServletInitializer{
+
+	@Override
+	protected Class<?>[] getRootConfigClasses() {
+		// TODO Auto-generated method stub
+		return new Class[] {JavaConfig.class};   //configuration class
+	}
+
+	@Override
+	protected Class<?>[] getServletConfigClasses() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String[] getServletMappings() {
+		// TODO Auto-generated method stub   //all request to controller
+		return new String[] {"/"};
+	}
+
+}
+
+JavaConfig.java-
+----------------
+package com.demojava;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+@Configuration
+@EnableWebMvc
+@ComponentScan("com.demojava")
+public class JavaConfig extends WebMvcConfigurerAdapter {
+
+}
+*************************************************************************************************************************
