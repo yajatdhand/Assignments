@@ -1,0 +1,340 @@
+SpringBootExample : -
+=================
+
+1. Class Entity : - 
+-----------------------
+package com.atcs.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity //Entity Class
+@Table(name = "springbootemp")  //Setting table name
+public class Employee {
+
+	@Id
+	@Column(name = "eid", length = 10)
+	private int empId;
+	@Column(name = "ename", length = 15)
+	private String empName;
+	@Column(name = "esal", length = 10)
+	private int empSal;
+	@Column(name = "eadd", length = 15)
+	private String empAdd;
+
+	public int getEmpId() {
+		return empId;
+	}
+
+	public void setEmpId(int empId) {
+		this.empId = empId;
+	}
+
+	public String getEmpName() {
+		return empName;
+	}
+
+	public void setEmpName(String empName) {
+		this.empName = empName;
+	}
+
+	public int getEmpSal() {
+		return empSal;
+	}
+
+	public void setEmpSal(int empSal) {
+		this.empSal = empSal;
+	}
+
+	public String getEmpAdd() {
+		return empAdd;
+	}
+
+	public void setEmpAdd(String empAdd) {
+		this.empAdd = empAdd;
+	}
+
+	public Employee() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Employee(int empId, String empName, int empSal, String empAdd) {
+		super();
+		this.empId = empId;
+		this.empName = empName;
+		this.empSal = empSal;
+		this.empAdd = empAdd;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [empId=" + empId + ", empName=" + empName + ", empSal=" + empSal + ", empAdd=" + empAdd + "]";
+	}
+
+}
+
+2.Interface EmployeeService: -
+----------------------------------------
+package com.atcs.service;
+
+import java.util.List;
+
+import com.atcs.entity.Employee;
+
+public interface EmployeeService {
+
+	Employee addEmployee(Employee employee);
+
+	Employee updateEmployee(Employee employee);
+
+	String deleteEmployee(int empId);
+
+	Employee getEmployee(int empId);
+
+	List<Employee> getAllEmployees();
+
+}
+
+3. Class EmployeeServiceImpl : -
+-------------------------------------------
+package com.atcs.service;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.atcs.dao.Employeedao;
+import com.atcs.entity.Employee;
+
+
+
+@Service
+@Transactional
+public class EmployeeServiceImpl  implements EmployeeService{
+	
+	@Autowired
+	Employeedao dao;
+
+	@Override
+	public Employee addEmployee(Employee employee) {
+		
+		return dao.addEmployee(employee);
+	}
+
+	@Override
+	public Employee updateEmployee(Employee employee) {
+		
+		return dao.updateEmployee(employee);
+	}
+
+	@Override
+	public String deleteEmployee(int empId) {
+		
+		return dao.deleteEmployee(empId);
+	}
+
+	@Override
+	public Employee getEmployee(int empId) {
+	
+		return dao.getEmployee(empId);
+	}
+
+	@Override
+	public List<Employee> getAllEmployees() {
+		
+		return dao.getAllEmployees();
+	}
+
+}
+
+4. Employeedao : -
+------------------------
+package com.atcs.dao;
+
+import java.util.List;
+
+import com.atcs.entity.Employee;
+
+public interface Employeedao {
+
+	Employee addEmployee(Employee employee);
+
+	Employee updateEmployee(Employee employee);
+
+	String deleteEmployee(int empId);
+
+	Employee getEmployee(int empId);
+
+	List<Employee> getAllEmployees();
+}
+
+5. EmployeedaoImpl : -
+------------------------------
+package com.atcs.dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.springframework.stereotype.Repository;
+
+import com.atcs.entity.Employee;
+
+
+
+@Repository
+public class EmployeedaoImpl implements Employeedao {
+
+	@PersistenceContext
+	EntityManager entity;
+
+	@Override
+	public Employee addEmployee(Employee employee) {
+		entity.persist(employee);
+		return entity.find(Employee.class, employee.getEmpId());
+	}
+
+	@Override
+	public Employee updateEmployee(Employee employee) {
+
+		return entity.merge(employee);
+	}
+
+	@Override
+	public String deleteEmployee(int empId) {
+		Employee emp = entity.find(Employee.class, empId);
+
+		if (emp != null) {
+			entity.remove(emp);
+			return "employee deleted";
+		} else {
+			return "no employee found";
+		}
+	}
+
+	@Override
+	public Employee getEmployee(int empId) {
+
+		return entity.find(Employee.class, empId);
+	}
+
+	@Override
+	public List<Employee> getAllEmployees() {
+		TypedQuery<Employee> result = entity.createQuery("select e from Employee e", Employee.class);
+		return result.getResultList();
+	}
+
+}
+
+6. Class SpringbootdemoApplication : -
+---------------------------------------------------
+package com.atcs;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+
+@SpringBootApplication
+public class SpringbootdemoApplication {
+	
+	public static void main(String[] args) {
+		SpringApplication.run(SpringbootdemoApplication.class, args);
+			
+	}
+
+}
+
+
+7. application.properties : -
+-----------------------------------
+
+server.port=4523
+spring.datasource.url=jdbc:postgresql://localhost:5432/one
+spring.datasource.username=postgres
+spring.datasource.password=abc123
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+8. Class SpringBootDemoAtcApplicationTests : -
+----------------------------------------------------------------
+package com.atcs;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.atcs.entity.Employee;
+import com.atcs.service.EmployeeService;
+
+
+
+@SpringBootTest
+class SpringBootDemoAtcApplicationTests {
+
+	@Autowired
+	EmployeeService service;
+	
+//	@Test
+//	void testAddEmployee() {
+//		
+//		Employee employee1=new Employee(112, "abc", 500, "delhi");
+//		Employee employee2=new Employee(113, "xyz", 510, "punjab");
+//		Employee emp1=service.addEmployee(employee1);
+//		Employee emp2=service.addEmployee(employee2);
+//		assertEquals(emp1.getEmpName(),"abc");
+//		assertEquals(emp2.getEmpName(),"xyz");
+//
+//	}
+	
+//	@Test
+//	void testUpdateEmployee() {
+//		
+//		Employee employee1=new Employee(111, "Yajat", 1510, "Jaipur");
+//		Employee employee2=new Employee(110, "Animal", 1500, "Mumbai");
+//		Employee emp1=service.updateEmployee(employee1);
+//		Employee emp2=service.updateEmployee(employee2);
+//		assertEquals(emp1.getEmpName(),"Yajat");
+//		assertEquals(emp2.getEmpName(),"Animal");
+//
+//	}
+	
+//	@Test
+//	void testGetEmployee()
+//	{
+//		Employee emp = service.getEmployee(111);
+//		assertEquals(emp.getEmpName(), "mehul");
+//		System.out.println(emp.toString());
+//	}
+	
+//	@Test
+//	void testDeleteEmployee() {
+//		
+//		String emp=service.deleteEmployee(111);
+//		assertEquals(emp,"employee deleted");
+//	}
+	
+//	@Test
+//	void testGetAllEmployees()
+//	{
+//		List<Employee> l1 = service.getAllEmployees();
+//		assertEquals(l1.size(), 3);
+//		for(int i = 0; i<l1.size();i++)
+//		{
+//			System.out.println(l1.get(i));
+//		}
+//	}
+	
+}
