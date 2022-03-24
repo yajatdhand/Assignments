@@ -1,0 +1,286 @@
+TRAINEE MANAGEMENT APPLICATION : -
+==================================
+Using SpringBoot JPA Rest
+------------------------------------
+
+1. Class Trainee : - //Entity Class
+-------------------------
+package com.tm.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+public class Trainee {
+	
+	@Id
+	private int Tid;
+	private String Tname;
+	private int Tsal;
+	private String Tcourse;
+	
+	public int getTid() {
+		return Tid;
+	}
+	public void setTid(int tid) {
+		Tid = tid;
+	}
+	public String getTname() {
+		return Tname;
+	}
+	public void setTname(String tname) {
+		Tname = tname;
+	}
+	public int getTsal() {
+		return Tsal;
+	}
+	public void setTsal(int tsal) {
+		Tsal = tsal;
+	}
+	public String getTcourse() {
+		return Tcourse;
+	}
+	public void setTcourse(String tcourse) {
+		Tcourse = tcourse;
+	}
+	@Override
+	public String toString() {
+		return "Trainee [Tid=" + Tid + ", Tname=" + Tname + ", Tsal=" + Tsal + ", Tcourse=" + Tcourse + "]";
+	}
+	
+	public Trainee() {
+		// TODO Auto-generated constructor stub
+	}
+	public Trainee(int tid, String tname, int tsal, String tcourse) {
+		super();
+		Tid = tid;
+		Tname = tname;
+		Tsal = tsal;
+		Tcourse = tcourse;
+	}
+	
+	
+	
+}
+
+2. Interface TraineeService : -
+---------------------------------------
+package com.tm.service;
+
+import java.util.List;
+
+import com.tm.entity.Trainee;
+
+public interface TraineeService {
+
+	public Trainee addTrainee(Trainee t1);
+
+	public Trainee updateTrainee(Trainee t1);
+
+	public Trainee getTrainee(int Tid);
+
+	public List<Trainee> getAllTrainees();
+
+	public String deleteTrainee(int Tid);
+
+}
+
+3. Class TraineeServiceImpl : -
+----------------------------------------
+package com.tm.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.tm.dao.Dao;
+import com.tm.entity.Trainee;
+
+@Service
+@Transactional
+public class TraineeServiceImpl implements TraineeService{
+
+	@Autowired
+	Dao dao;
+	
+	@Override
+	public Trainee addTrainee(Trainee t1) {
+		return dao.addTrainee(t1);
+	}
+
+	@Override
+	public Trainee updateTrainee(Trainee t1) {
+		return dao.updateTrainee(t1);
+	}
+
+	@Override
+	public Trainee getTrainee(int Tid) {
+		return dao.getTrainee(Tid);
+	}
+
+	@Override
+	public List<Trainee> getAllTrainees() {
+		return dao.getAllTrainees();
+	}
+
+	@Override
+	public String deleteTrainee(int Tid) {
+		return dao.deleteTrainee(Tid);
+	}
+
+}
+
+4. Interface Dao : -
+------------------------
+package com.tm.dao;
+
+import java.util.List;
+
+import com.tm.entity.Trainee;
+
+public interface Dao {
+
+	public Trainee addTrainee(Trainee t1);
+
+	public Trainee updateTrainee(Trainee t1);
+
+	public Trainee getTrainee(int Tid);
+
+	public List<Trainee> getAllTrainees();
+
+	public String deleteTrainee(int Tid);
+
+}
+
+5. Class DaoImpl : -
+--------------------------
+package com.tm.dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.springframework.stereotype.Repository;
+
+import com.tm.entity.Trainee;
+
+@Repository
+public class DaoImpl implements Dao{
+
+	@PersistenceContext
+	EntityManager entity;
+	
+	@Override
+	public Trainee addTrainee(Trainee t1) {
+		entity.persist(t1);
+		return entity.find(Trainee.class, t1.getTid());
+	}
+
+	@Override
+	public Trainee updateTrainee(Trainee t1) {
+		return entity.merge(t1);
+	}
+
+	@Override
+	public Trainee getTrainee(int Tid) {
+		return entity.find(Trainee.class, Tid);
+	}
+
+	@Override
+	public List<Trainee> getAllTrainees() {
+		
+		TypedQuery<Trainee> t = entity.createQuery("select t from Trainee t", Trainee.class);
+		return t.getResultList();
+	}
+
+	@Override
+	public String deleteTrainee(int Tid) {
+		
+		Trainee t1 = entity.find(Trainee.class, Tid);
+		if(t1!=null)
+		{
+			entity.remove(t1);
+			return "Trainee removed";
+		}
+		else
+			return "Trainee not found";
+	}
+
+}
+
+6. application.properties : -
+----------------------------------
+server.port=1249
+spring.datasource.url=jdbc:postgresql://localhost:5432/one
+spring.datasource.username=postgres
+spring.datasource.password=abc123
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.hibernate.ddl-auto=create
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+
+7. Class TraineeController : -
+--------------------------------------
+package com.tm.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.tm.entity.Trainee;
+import com.tm.service.TraineeService;
+
+
+
+@RestController
+@RequestMapping("/trainee")
+public class TraineeController {
+
+	@Autowired
+	TraineeService service;
+	
+	@PostMapping("/addTrainee") // http://localhost:1249/trainee/addTrainee
+	public Trainee addEmployee(@RequestBody Trainee t1) 
+	{
+		return service.addTrainee(t1);
+	}
+	
+	@PutMapping("/updateTrainee") // http://localhost:1249/trainee/updateTrainee
+	public Trainee updateEmployee(@RequestBody Trainee t1) 
+	{
+		return service.updateTrainee(t1);
+	}
+	
+	@GetMapping("/getTrainee/{eid}") // http://localhost:1249/trainee/getTrainee/eid
+	public Trainee getEmployee(@PathVariable ("eid") int tId) 
+	{
+		return service.getTrainee(tId);
+	}
+	
+	@GetMapping("/getAllTrainees") // http://localhost:1249/trainee/getAllTrainees
+	public List<Trainee> getEmployee() 
+	{
+		return service.getAllTrainees();
+	}
+	
+	@DeleteMapping("/deleteTrainee/{eid}") // http://localhost:1249/trainee/deleteTrainee/eid
+	public String deleteEmployee(@PathVariable("eid") int tId) 
+	{
+		return service.deleteTrainee(tId);
+	}
+	
+}
