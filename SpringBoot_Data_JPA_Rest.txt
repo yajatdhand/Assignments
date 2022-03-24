@@ -1,0 +1,468 @@
+## Q1. Example : EMPLOYEE MANAGEMENT APPLICATION ##
+=================================================
+ Using SpringBoot, DataJPA, Rest and Layered Architecture : -
+---------------------------------------------------------------------------
+1. Class Employee : -
+----------------------------
+package com.sb.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "employeedatajpa")
+public class Employee {
+
+	@Id
+	@Column(name = "eid", length = 10)
+	private int empId;
+	@Column(name = "ename", length = 15)
+	private String empName;
+	@Column(name = "esal", length = 10)
+	private int empSal;
+	@Column(name = "eadd", length = 15)
+	private String empAdd;
+
+	public int getEmpId() {
+		return empId;
+	}
+
+	public void setEmpId(int empId) {
+		this.empId = empId;
+	}
+
+	public String getEmpName() {
+		return empName;
+	}
+
+	public void setEmpName(String empName) {
+		this.empName = empName;
+	}
+
+	public int getEmpSal() {
+		return empSal;
+	}
+
+	public void setEmpSal(int empSal) {
+		this.empSal = empSal;
+	}
+
+	public String getEmpAdd() {
+		return empAdd;
+	}
+
+	public void setEmpAdd(String empAdd) {
+		this.empAdd = empAdd;
+	}
+
+	public Employee() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Employee(int empId, String empName, int empSal, String empAdd) {
+		super();
+		this.empId = empId;
+		this.empName = empName;
+		this.empSal = empSal;
+		this.empAdd = empAdd;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [empId=" + empId + ", empName=" + empName + ", empSal=" + empSal + ", empAdd=" + empAdd + "]";
+	}
+
+}
+
+2. Interface EmployeeService : -
+------------------------------------------
+package com.sb.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.sb.entity.Employee;
+
+public interface EmployeeService {
+
+	Employee addEmployee(Employee employee);
+
+	Employee updateEmployee(Employee employee);
+
+	void deleteEmployee(int empId);
+
+	Optional<Employee> getEmployee(int empId);
+
+	Iterable<Employee> getAllEmployees();
+
+}
+
+3. Class EmployeeServiceImpl : -
+-------------------------------------------
+package com.sb.service;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.sb.dao.Employeedao;
+import com.sb.entity.Employee;
+
+
+
+@Service
+@Transactional
+public class EmployeeServiceImpl  implements EmployeeService{
+	
+	@Autowired
+	Employeedao dao;
+
+	@Override
+	public Employee addEmployee(Employee employee) {
+		
+		return dao.save(employee);
+	}
+
+	@Override
+	public Employee updateEmployee(Employee employee) {
+		
+		return dao.save(employee);
+	}
+
+	@Override
+	public void deleteEmployee(int empId) {
+			
+		dao.deleteById(empId);
+	}
+
+	@Override
+	public Optional<Employee> getEmployee(int empId) {
+	
+		return dao.findById(empId);
+	}
+
+	@Override
+	public Iterable<Employee> getAllEmployees() {
+		
+		return dao.findAll();
+	}
+
+}
+
+4. Interface EmployeeDao : -
+--------------------------------------
+package com.sb.dao;
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.sb.entity.Employee;
+
+public interface Employeedao extends CrudRepository<Employee, Integer> {
+
+}
+
+5. Class Controller : -
+----------------------------
+package com.sb.controller;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.sb.entity.Employee;
+import com.sb.service.EmployeeService;
+
+@RestController
+@RequestMapping("/employee")
+public class EmployeeController {
+	
+	@Autowired
+	EmployeeService service;
+	
+	@PostMapping("/addEmployee") // http://localhost:4517/employee/addEmployee
+	public Employee addEmployee(@RequestBody Employee emp) 
+	{
+		return service.addEmployee(emp);
+	}
+	
+	@PutMapping("/updateEmployee") // http://localhost:4517/employee/updateEmployee
+	public Employee updateEmployee(@RequestBody Employee emp) 
+	{
+		return service.updateEmployee(emp);
+	}
+	
+	@GetMapping("/getEmployee/{eid}") // http://localhost:4517/employee/getEmployee/eid
+	public Optional<Employee> getEmployee(@PathVariable ("eid") int empId) 
+	{
+		return service.getEmployee(empId);
+	}
+	
+	@GetMapping("/getAllEmployees") // http://localhost:4517/employee/getAllEmployees
+	public Iterable<Employee> getEmployee() 
+	{
+		return service.getAllEmployees();
+	}
+	
+	@DeleteMapping("/deleteEmployee/{eid}") // http://localhost:4517/employee/deleteEmployee/eid
+	public void deleteEmployee(@PathVariable("eid") int empId) 
+	{
+		 service.deleteEmployee(empId);
+	}
+}
+
+6. application.properties : -
+----------------------------------
+server.port=4517
+spring.datasource.url=jdbc:postgresql://localhost:5432/one
+spring.datasource.username=postgres
+spring.datasource.password=abc123
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+
+##Output##
+---------------
+one=# select * from employeedatajpa;
+ eid | eadd | ename  |  esal
+-----+------+--------+---------
+ 101 | Bom  | Yajat  | 5000000
+ 102 | Jpr  | Animal |   50000
+ 103 | Del  | abc    |   90000
+(3 rows)
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Q2. PIZZA MANAGEMENT APPLICATION ##
+=====================================
+Using SpringBoot, DataJPA, Rest and Layered Architecture
+-----------------------------------------------------------------------
+
+1. Class Pizza : - //Entity Class
+----------------------------------------package com.pm.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Pizza {
+
+	@Id
+	private int pid;
+	private String pname;
+	private int pprice;
+	private int pspicyscale;
+	public int getPid() {
+		return pid;
+	}
+	public void setPid(int pid) {
+		this.pid = pid;
+	}
+	public String getPname() {
+		return pname;
+	}
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
+	public int getPprice() {
+		return pprice;
+	}
+	public void setPprice(int pprice) {
+		this.pprice = pprice;
+	}
+	public int getPspicyscale() {
+		return pspicyscale;
+	}
+	public void setPspicyscale(int pspicyscale) {
+		this.pspicyscale = pspicyscale;
+	}
+	@Override
+	public String toString() {
+		return "Pizza [pid=" + pid + ", pname=" + pname + ", pprice=" + pprice + ", pspicyscale=" + pspicyscale + "]";
+	}
+	
+	public Pizza() {
+		// TODO Auto-generated constructor stub
+	}
+	public Pizza(int pid, String pname, int pprice, int pspicyscale) {
+		super();
+		this.pid = pid;
+		this.pname = pname;
+		this.pprice = pprice;
+		this.pspicyscale = pspicyscale;
+	}
+	
+	
+}
+
+2. Interface PizzaService : -
+------------------------------------
+package com.pm.service;
+
+import java.util.Optional;
+
+import com.pm.entity.Pizza;
+
+public interface PizzaService {
+
+	Pizza addPizza(Pizza p);
+
+	Pizza updatePizza(Pizza p);
+
+	Optional<Pizza> getPizza(int Pid);
+
+	Iterable<Pizza> getAllPizzas();
+
+	void deletePizza(int Pid);
+
+}
+
+3. Class PizzaServiceImpl : -
+--------------------------------------
+package com.pm.service;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.pm.dao.PizzaDao;
+import com.pm.entity.Pizza;
+
+@Service
+@Transactional
+public class PizzaServiceImpl implements PizzaService {
+
+	@Autowired
+	PizzaDao dao;
+	
+	@Override
+	public Pizza addPizza(Pizza p) {
+		return dao.save(p);
+	}
+
+	@Override
+	public Pizza updatePizza(Pizza p) {
+		return dao.save(p);
+	}
+
+	@Override
+	public Optional<Pizza> getPizza(int Pid) {
+		return dao.findById(Pid);
+	}
+
+	@Override
+	public Iterable<Pizza> getAllPizzas() {
+		return dao.findAll();
+	}
+
+	@Override
+	public void deletePizza(int Pid) {
+		 dao.deleteById(Pid);;
+	}
+
+}
+
+4. Interface PizzaDao : -
+--------------------------------
+package com.pm.dao;
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.pm.entity.Pizza;
+
+public interface PizzaDao extends CrudRepository<Pizza, Integer> {
+
+}
+
+5. Class Controller : -
+----------------------------
+package com.pm.controller;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.pm.entity.Pizza;
+import com.pm.service.PizzaService;
+
+@RestController
+@RequestMapping("/pizza")
+public class PizzaController {
+
+	@Autowired
+	PizzaService service;
+	
+	@PostMapping("/addPizza") // http://localhost:4519/pizza/addPizza
+	public Pizza addPizza(@RequestBody Pizza p)
+	{
+		return service.addPizza(p);
+	}
+	
+	@PutMapping("/updatePizza") // http://localhost:4519/pizza/updatePizza
+	public Pizza updatePizza(@RequestBody Pizza p)
+	{
+		return service.updatePizza(p);
+	}
+	
+	@GetMapping("/getPizza/{pid}") // http://localhost:4519/pizza/getPizza
+	public Optional<Pizza> getPizza(@PathVariable ("pid") int Pid)
+	{
+		return service.getPizza(Pid);
+	}
+	
+	@GetMapping("/getAllPizzas") // http://localhost:4519/pizza/getAllPizzas
+	public Iterable<Pizza> getAllPizzas()
+	{
+		return service.getAllPizzas();
+	}
+	
+	@DeleteMapping("/deletePizza/{pid}") // http://localhost:4519/pizza/deletePizza
+	public void deletePizza(@PathVariable ("pid") int Pid)
+	{
+		service.deletePizza(Pid);
+	}
+}
+
+6. application.properties : -
+----------------------------------
+server.port=4519
+spring.datasource.url=jdbc:postgresql://localhost:5432/one
+spring.datasource.username=postgres
+spring.datasource.password=abc123
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.hibernate.ddl-auto=create
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+##Output##
+---------------
+one=# select * from pizza;
+ pid |    pname     | pprice | pspicyscale
+-----+--------------+--------+-------------
+ 102 | Extravaganza |    750 |           5
+ 103 | xyz          |    600 |           2
+(2 rows)
+
+
+

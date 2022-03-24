@@ -1,0 +1,300 @@
+24-03-2022-
+------------
+Example-1(SpringBoot Jpa rest Employee)
+---------------------------------------
+src/main/java-
+==============
+
+-com.rp-
+========
+-SpringBootJpaRestApplication.java-
+-----------------------------------
+package com.rp;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringBootJpaRestApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringBootJpaRestApplication.class, args);
+	}
+
+}
+
+
+-com.rp.controller-
+===================
+EmployeeController.java-
+------------------------
+package com.rp.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.rp.entity.Employee;
+import com.rp.service.EmployeeService;
+
+@RestController
+@RequestMapping("/employee")  //http://localhost:2120/employee
+public class EmployeeController {
+	@Autowired
+	EmployeeService service;
+	
+	//post-insert ,get-get,put-update,delete-remove
+	@PostMapping("/addEmployee")  //http://localhost:2120/employee/addEmployee
+	public Employee addEmployee(@RequestBody Employee emp) {
+		return service.addEmployee(emp);	
+}
+	@PutMapping("/updateEmployee")//http://localhost:2120/employee/updateEmployee
+	public Employee updateEmployee(@RequestBody Employee emp) {
+		return service.updateEmployee(emp);	
+}
+	@GetMapping("/getEmployee/{eid}")//http://localhost:2120/employee/getEmployee/eid
+	public Employee getEmployee(@PathVariable("eid") int empId) {
+		return service.getEmployee(empId);	
+}
+	@GetMapping("/getAllEmployees")//http://localhost:2120/employee/getAllEmployees
+	public List<Employee> getAllEmployee() {
+		return service.getAllEmployees();	
+}
+	@DeleteMapping("/deleteEmployee/{eid}")//http://localhost:2120/employee/deleteEmployee/eid
+	public String deleteEmployee(@PathVariable("eid") int empId) {
+		return service.deleteEmployee(empId);	
+}
+}
+
+-com.rp.dao-
+============
+-EmployeeDao.java-
+------------------
+package com.rp.dao;
+
+import java.util.List;
+
+import com.rp.entity.Employee;
+
+public interface EmployeeDao {
+	Employee addEmployee(Employee employee);
+	Employee updateEmployee(Employee employee);
+	String deleteEmployee(int empId);
+	Employee getEmployee(int empId);
+	List<Employee> getAllEmployees();
+}
+
+-EmployeeDaoImpl.java-
+----------------------
+package com.rp.dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.springframework.stereotype.Repository;
+
+import com.rp.entity.Employee;
+
+@Repository
+public class EmployeeDaoImpl implements EmployeeDao{
+	
+	@PersistenceContext
+	EntityManager entity;
+	@Override
+	public Employee addEmployee(Employee employee) {
+		// TODO Auto-generated method stub
+		entity.persist(employee);
+		return entity.find(Employee.class, employee.getEmpId());
+	}
+
+	@Override
+	public Employee updateEmployee(Employee employee) {
+		// TODO Auto-generated method stub
+		return entity.merge(employee);
+	}
+
+	@Override
+	public String deleteEmployee(int empId) {
+		// TODO Auto-generated method stub
+		Employee emp=entity.find(Employee.class, empId);
+		if(emp!=null) {
+			entity.remove(emp);
+			return "Employee Deleted";
+		}
+		else {
+			return "No Employee found";
+		}
+	}
+
+	@Override
+	public Employee getEmployee(int empId) {
+		// TODO Auto-generated method stub
+		return entity.find(Employee.class, empId);
+	}
+
+	@Override
+	public List<Employee> getAllEmployees() {
+		// TODO Auto-generated method stub
+		TypedQuery<Employee> r=entity.createQuery("Select e from Employee e",Employee.class);
+		return r.getResultList();
+	}
+
+}
+
+-com.rp.entity-
+===============
+-Employee.java-
+---------------
+package com.rp.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="JPArestemp")
+public class Employee {
+		@Id
+		private int empId;
+		private String empName;
+		private int empSal;
+		private String empAdd;
+		public int getEmpId() {
+			return empId;
+		}
+		public void setEmpId(int empId) {
+			this.empId = empId;
+		}
+		public String getEmpName() {
+			return empName;
+		}
+		public void setEmpName(String empName) {
+			this.empName = empName;
+		}
+		public int getEmpSal() {
+			return empSal;
+		}
+		public void setEmpSal(int empSal) {
+			this.empSal = empSal;
+		}
+		public String getEmpAdd() {
+			return empAdd;
+		}
+		public void setEmpAdd(String empAdd) {
+			this.empAdd = empAdd;
+		}
+		
+		
+		public Employee() {
+			// TODO Auto-generated constructor stub
+		}
+		@Override
+		public String toString() {
+			return "Employee [empId=" + empId + ", empName=" + empName + ", empSal=" + empSal + ", empAdd=" + empAdd
+					+ "]";
+		}
+		public Employee(int empId, String empName, int empSal, String empAdd) {
+			super();
+			this.empId = empId;
+			this.empName = empName;
+			this.empSal = empSal;
+			this.empAdd = empAdd;
+		}
+		
+		
+}
+
+
+-com.rp.service-
+================
+-EmployeeService.java-
+----------------------
+package com.rp.service;
+
+import java.util.List;
+
+import com.rp.entity.Employee;
+
+public interface EmployeeService {
+	 Employee addEmployee(Employee employee);
+		Employee updateEmployee(Employee employee);
+		String deleteEmployee(int empId);
+		Employee getEmployee(int empId);
+		List<Employee> getAllEmployees();
+}
+
+-EmployeeServiceImpl.java-
+--------------------------
+package com.rp.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.rp.dao.EmployeeDao;
+import com.rp.entity.Employee;
+@Service
+@Transactional
+public class EmployeeServiceImpl implements EmployeeService {
+	@Autowired
+	EmployeeDao dao;
+	@Override
+	public Employee addEmployee(Employee employee) {
+		// TODO Auto-generated method stub
+		return dao.addEmployee(employee);
+	}
+
+	@Override
+	public Employee updateEmployee(Employee employee) {
+		// TODO Auto-generated method stub
+		return dao.updateEmployee(employee);
+	}
+
+	@Override
+	public String deleteEmployee(int empId) {
+		// TODO Auto-generated method stub
+		return dao.deleteEmployee(empId);
+	}
+
+	@Override
+	public Employee getEmployee(int empId) {
+		// TODO Auto-generated method stub
+		return dao.getEmployee(empId);
+	}
+
+	@Override
+	public List<Employee> getAllEmployees() {
+		// TODO Auto-generated method stub
+		return dao.getAllEmployees();
+	}
+
+}
+
+application.properties-
+=======================
+server.port=2120
+spring.datasource.url=jdbc:postgresql://localhost:5432/one
+spring.datasource.username=postgres
+spring.datasource.password=12345@
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+
+
+
+
